@@ -63,6 +63,7 @@ import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
+import com.example.myfirstapp.MainActivity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.camera.CameraManager;
 import com.example.myfirstapp.camera.ShutterButton;
@@ -756,9 +757,14 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     TextView ocrResultTextView = (TextView) findViewById(R.id.ocr_result_text_view);
     ocrResultTextView.setText(ocrResult.getText());
     
+    // HERE
     //Intent i = new Intent(getApplicationContext(), MainActivity.class);
     //i.putExtra("ocr", ocrResult.getText());
-    //startActivity(i);   
+    //startActivity(i);  
+    Intent i = new Intent();
+    i.putExtra("ocr", ocrResult.getText());  // insert your extras here
+    setResult(0, i);
+    finish();
     
     // Crudely scale betweeen 22 and 32 -- bigger font for shorter text
     int scaledSize = Math.max(22, 32 - ocrResult.getText().length() / 4);

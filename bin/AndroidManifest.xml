@@ -63,25 +63,27 @@
             android:name=".ViewItem"
             android:label="@string/title_activity_view_item" >
         </activity>
-        
-        <activity android:name=".CaptureActivity"
-              android:screenOrientation="landscape"
-              android:configChanges="orientation|keyboardHidden|screenSize"
-              android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-              android:windowSoftInputMode="stateAlwaysHidden"              
-        >
-      </activity>
-      
-        <activity android:name=".HelpActivity"
-              android:screenOrientation="user">
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-      </intent-filter>
-    </activity>
-    
-    <activity android:name=".PreferencesActivity" />
-        
+        <activity
+            android:name=".camerabase.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name=".camerabase.HelpActivity"
+            android:screenOrientation="user" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".camerabase.PreferencesActivity" />
+        <activity
+            android:name=".ListCategoryActivity"
+            android:label="@string/title_activity_list_category" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.CAMERA" />

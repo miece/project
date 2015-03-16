@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -24,11 +25,13 @@ import com.squareup.picasso.Picasso;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -59,9 +62,16 @@ public class AddItemActivity extends Activity  {
 	private String itemImage;
 	private ImageView imgView;
 	
+	// edit text focus storage
+	private String evalue;
+	private String ocrText;
+	
 	private Button saveNoteButton;
 	private Button cancelButton;
 	private ImageButton photoButton;
+	private Button ocrButton;
+	
+	Context context = this;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +97,8 @@ public class AddItemActivity extends Activity  {
 		titleEditText = (EditText) findViewById(R.id.itemTitle);
 	    detailsEditText = (EditText) findViewById(R.id.itemDetailsInput);
 	    categoryEditText = (EditText) findViewById(R.id.itemCategory);
+
+	    
 	    imgView = (ImageView) findViewById(R.id.imageView1);
 	    int width = 260;
 	    int height = 326;
@@ -218,6 +230,66 @@ public class AddItemActivity extends Activity  {
 	            openCamera();
 	        }
 	    });
+	    
+	    
+        titleEditText.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				// TODO Auto-generated method stub
+				evalue = "1";
+				return false;
+			}
+		});
+        detailsEditText.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				// TODO Auto-generated method stub
+				evalue = "2";
+				return false;
+			}
+		});
+       
+        
+        ocrButton = (Button)findViewById(R.id.ocr_button);
+        ocrButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View arg0) {
+                if(evalue=="1")
+                {
+                	Intent intent = new Intent(context, com.example.myfirstapp.camerabase.CaptureActivity.class);
+            		//startActivity(intent);
+                	startActivityForResult(intent, 1);
+            		
+                	/*
+                    Bundle extras = getIntent().getExtras();
+                    if (extras != null) {
+                        String ocrText = extras.getString("ocr");
+                        titleEditText.setText(ocrText);
+                    }
+                    */
+                	//titleEditText.setText(ocrText);
+                    //e1.setText("yes");
+                }
+                if(evalue=="2")
+                {
+                	Intent intent = new Intent(context, com.example.myfirstapp.camerabase.CaptureActivity.class);
+            		//startActivity(intent);
+                	startActivityForResult(intent, 2);
+                    //e2.setText("yes");
+                }
+                if(evalue=="3")
+                {
+                    //e2.setText("yes");
+                }
+                else{
+                	Toast.makeText(getApplicationContext(), "Please select a text box first then click the ocr button", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
 
 		
 	}
@@ -433,6 +505,7 @@ public class AddItemActivity extends Activity  {
 	      
 	      
 	}
+	/*
 	   @Override
 	   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	      // TODO Auto-generated method stub
@@ -441,7 +514,28 @@ public class AddItemActivity extends Activity  {
 	      bp = (Bitmap) data.getExtras().get("data");
 	      imgView.setImageBitmap(bp);
 	   }
-
+	   */
+		protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		    switch(requestCode){
+		        case 0: // Do your stuff here...
+		        	if(resultCode != RESULT_CANCELED){
+		  	      // TODO Auto-generated method stub
+		  	      super.onActivityResult(requestCode, resultCode, data);
+		  	      notPhoto = true;
+		  	      bp = (Bitmap) data.getExtras().get("data");
+		  	      imgView.setImageBitmap(bp);
+		        	}
+		        break;
+		        case 1: // Do your other stuff here...
+                    ocrText = data.getStringExtra("ocr");
+                    titleEditText.setText(ocrText);
+		        break;
+		        case 2: // Do your other stuff here...
+                    ocrText = data.getStringExtra("ocr");
+                    detailsEditText.setText(ocrText);
+		        break;
+		    }
+		}
 	
 	
 	

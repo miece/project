@@ -113,6 +113,19 @@ public class MainActivity extends Activity {
             }
         });
         
+        
+        View btnCategory = findViewById(R.id.category_button);
+        btnCategory.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+			    Intent intent = new Intent(context, ListCategoryActivity.class);
+                startActivity(intent);   
+                
+            }
+        });
+        
+        
+        
         addListenerOnButton();
         openViewItem();
     }

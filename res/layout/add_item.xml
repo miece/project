@@ -25,7 +25,7 @@
     <EditText
         android:id="@+id/itemDetailsInput"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="67dp"
         android:hint="@string/item_hint_detail"
         android:ems="10" />
     
@@ -42,7 +42,33 @@
         android:hint="@string/item_hint_category"
         android:singleLine="true"
         android:ems="10" />
+    
+            <TextView
+        android:id="@+id/author_artistTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Author/Artist" />
+        
+    <EditText
+        android:id="@+id/author_artist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Author / Artist" />
 
+        <TextView
+        android:id="@+id/pub_relDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Author/Artist" />
+        
+    	<EditText
+        android:id="@+id/publish_release_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Release / Publish Date" />
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
@@ -58,12 +84,30 @@
         android:background="@drawable/img_view_border"
          />
 
-            <ImageButton
-        android:id="@+id/camera_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_camera"/>
 
+
+            <LinearLayout 
+    android:id="@+id/LinearLayout03" 
+    android:layout_height="wrap_content" 
+    android:layout_width="fill_parent" 
+    android:layout_alignParentBottom="true">
+    
+                <ImageButton
+        android:id="@+id/camera_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+                android:layout_weight="1" 
+        android:src="@drawable/ic_action_camera"/>
+                
+                                <Button
+        android:id="@+id/ocr_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" 
+        android:text="OCR"/>
+
+
+</LinearLayout>
 
 <LinearLayout 
     android:id="@+id/LinearLayout02" 

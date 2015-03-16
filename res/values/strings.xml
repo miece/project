@@ -44,5 +44,6 @@
     <string name="tap">Tap the image to open the camera!!</string>
     <string name="title_activity_view_item">ViewItem</string>
     <string name="title_activity_list_category">ListCategoryActivity</string>
+    <string name="title_activity_list_category_item">Category List</string>
 
 </resources>

@@ -151,6 +151,12 @@ public class AddItemActivity extends Activity  {
 				    }
 				}
 	        }
+	        if(strdata.equals("from_OCR"))
+	        {
+	        	// From Action settings Menu
+	        	// Do Nothing
+	        	
+	        }
 	        if(strdata.equals("from_List_Activity"))
 	        {
 	    	    if (intent.getExtras() != null) {

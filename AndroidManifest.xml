@@ -84,6 +84,10 @@
             android:name=".ListCategoryActivity"
             android:label="@string/title_activity_list_category" >
         </activity>
+        <activity
+            android:name=".ListCategoryItemActivity"
+            android:label="@string/title_activity_list_category_item" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.CAMERA" />

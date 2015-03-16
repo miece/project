@@ -33,6 +33,7 @@ import org.jsoup.Jsoup;
 
 
 import com.example.myfirstapp.amazonSigner.SignedRequestsHelper;
+import com.example.myfirstapp.camerabase.CaptureActivity;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -69,6 +70,7 @@ public class MainActivity extends Activity {
 	boolean gotCode = false;
 	String thecode = "";
 	String theTitle = "";
+	String ocrText = "";
 	
 	org.jsoup.nodes.Document doc1;
 	
@@ -101,10 +103,6 @@ public class MainActivity extends Activity {
         zxingLibConfig.useFrontLight = true;
         
         View btnScan = findViewById(R.id.scan_button);
-        
-
-
-        
         btnScan.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +111,17 @@ public class MainActivity extends Activity {
             }
         });
         
+        View btnISBN = findViewById(R.id.scan_isbn_button);
+        btnISBN.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+			    Intent intent = new Intent(context, CaptureActivity.class);
+			    intent.putExtra("Uniqid","from_Main"); 
+			    startActivityForResult(intent, 11);  
+                
+            }
+        });
+                
         
         View btnCategory = findViewById(R.id.category_button);
         btnCategory.setOnClickListener(new OnClickListener() {
@@ -556,6 +565,96 @@ isFirst = true;
                             	intent.putExtra("artist", artist);
                             }
                             
+                            
+
+                            
+                            startActivity(intent); 
+                            finish();
+
+                        }
+                    });
+                }
+                break;
+            case 11: 
+
+                ocrText = data.getStringExtra("ocr");
+                ocrText = ocrText.replaceAll("[\\s\\-()]", "");
+                ocrText = ocrText.replaceAll("ISBN", "");
+                //Log.d("dir", ocrText);
+                System.out.println(ocrText);
+                if (ocrText != null) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            //txtScanResult.setText(result);
+                            String value = "";
+                            String test = "";
+                            
+                            String item = "";
+                            String title = "";
+                            String manufacturer = "";
+                            String artist = "";
+                            String author = "";
+                            String description = "";
+                            String price = "";
+                            String image = "";
+                            try {
+                            	// scrape html to get result of title
+
+                            	//txtScanResult.setText(value);
+                            	test = amazonReturnDetails(ocrText);
+                            	
+                        		item = parseXML(test).get("ProductGroup");
+                        		title = parseXML(test).get("Title");
+                        		manufacturer =  parseXML(test).get("Manufacturer");
+                        		artist =  parseXML(test).get("Artist");
+                        		author =  parseXML(test).get("Author");
+                        		description =  parseXML(test).get("Content");
+                        		price =  parseXML(test).get("Price");
+                        		image =  parseXML(test).get("Image");
+                        		
+                        		doc1 = Jsoup.parse(description);
+                        		description = doc1.text();
+                            	
+                        		
+                            	
+								//Log.d("---------", getBlogStats());
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+
+                            Intent intent = new Intent(context, AddItemActivity.class);
+
+                            
+                            
+                            intent.putExtra("Uniqid","from_Main"); 
+                            intent.putExtra("title", title);
+                            intent.putExtra("description", description);
+                            intent.putExtra("category", item);                        
+                            intent.putExtra("price", price);
+                            intent.putExtra("image", image);
+                            intent.putExtra("manufacturer", manufacturer);
+                            
+                            if(item != null){
+                                if(item.equals("Book") || item.equals("eBooks")){
+                                	intent.putExtra("author", author);
+                                }
+                                if(item.equals("Music")){
+                                	intent.putExtra("artist", artist);
+                                }
+                            }
+                            else
+                            {
+                            }
+                            /*
+                            if(item.equals("Book") || item.equals("eBooks")){
+                            	intent.putExtra("author", author);
+                            }
+                            if(item.equals("Music")){
+                            	intent.putExtra("artist", artist);
+                            }
+                            */
                             
 
                             

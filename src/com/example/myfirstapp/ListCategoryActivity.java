@@ -14,6 +14,7 @@ import com.parse.ParseUser;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -107,6 +108,10 @@ public class ListCategoryActivity extends ListActivity {
    super.onListItemClick(l, v, position, id);
    Object o = this.getListAdapter().getItem(position);
    String pen = o.toString();
+   
+   Intent intent = new Intent(this, ListCategoryItemActivity.class);
+   intent.putExtra("theCategory",pen); 
+   startActivity(intent);
    //Toast.makeText(this, "You have chosen the item: " + " " + pen, Toast.LENGTH_LONG).show();
    
    }

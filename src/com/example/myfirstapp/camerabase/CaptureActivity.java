@@ -63,6 +63,7 @@ import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
+import com.example.myfirstapp.AddItemActivity;
 import com.example.myfirstapp.MainActivity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.camera.CameraManager;
@@ -760,7 +761,22 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     // HERE
     //Intent i = new Intent(getApplicationContext(), MainActivity.class);
     //i.putExtra("ocr", ocrResult.getText());
-    //startActivity(i);  
+    //startActivity(i);
+    Intent intent = this.getIntent();
+    if(intent !=null)
+    {
+        String strdata = intent.getExtras().getString("Uniqid");
+	    if(strdata.equals("from_Main"))
+        {
+	        Intent i = new Intent(getApplicationContext(), AddItemActivity.class);
+	        i.putExtra("Uniqid","from_OCR"); 
+	        i.putExtra("ocr", ocrResult.getText());
+	        //startActivity(i);
+	        setResult(0, i);
+	        finish();
+        }
+    }
+
     Intent i = new Intent();
     i.putExtra("ocr", ocrResult.getText());  // insert your extras here
     setResult(0, i);

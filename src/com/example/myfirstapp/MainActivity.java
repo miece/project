@@ -60,6 +60,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.os.Build;
 
 
@@ -133,6 +134,25 @@ public class MainActivity extends Activity {
             }
         });
         
+        View btnExport = findViewById(R.id.export_button);
+        btnExport.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+			    Intent intent = new Intent(context, ExportActivity.class);
+                startActivity(intent);   
+                
+            }
+        });
+        
+        View btnSearch = findViewById(R.id.search_button);
+        btnSearch.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+			    Intent intent = new Intent(context, SearchActivity.class);
+                startActivity(intent);   
+                
+            }
+        });
         
         
         addListenerOnButton();
@@ -489,9 +509,11 @@ isFirst = true;
             case IntentIntegrator.REQUEST_CODE: 
                 IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode,
                         resultCode, data);
+                /*
                 if (scanResult == null) {
                     return;
                 }
+                */
                 final String result = scanResult.getContents();
                 if (result != null) {
                     handler.post(new Runnable() {
@@ -576,12 +598,15 @@ isFirst = true;
                 }
                 break;
             case 11: 
-
+            	if(resultCode != RESULT_CANCELED){
                 ocrText = data.getStringExtra("ocr");
-                ocrText = ocrText.replaceAll("[\\s\\-()]", "");
-                ocrText = ocrText.replaceAll("ISBN", "");
+                //ocrText = ocrText.replaceAll("[\\s\\-()]", "");
+                //ocrText = ocrText.replaceAll("ISBN", "");
                 //Log.d("dir", ocrText);
                 System.out.println(ocrText);
+            	}
+            	
+            	
                 if (ocrText != null) {
                     handler.post(new Runnable() {
                         @Override
@@ -660,10 +685,18 @@ isFirst = true;
                             
                             startActivity(intent); 
                             finish();
+                            
 
                         }
+                        
                     });
                 }
+            	
+            	else{
+            		Toast toast = Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG);
+                    toast.show();
+            	}
+
                 break;
             default:
         }

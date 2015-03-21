@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -37,6 +38,8 @@ public class ListItemActivity extends ListActivity {
 	
 	// declare a class variable that will hold a list of items.
 	private List<ItemDetails> items;
+	private ItemDetails contextPos;
+	boolean deleted = false;
 	
 
     @Override
@@ -114,9 +117,40 @@ public class ListItemActivity extends ListActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.context_menu, menu);
-      }
+        long pos=getListAdapter().getItemId(((AdapterView.AdapterContextMenuInfo)menuInfo).position);
+        ItemDetails theItems = items.get((int) pos);
+        theItems = items.get((int) pos);
+        
+        System.out.println(pos);
+    }
     
     public boolean onContextItemSelected(MenuItem item) {
+    	AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    	ItemDetails theItems;
+    	switch(item.getItemId()){
+    	case R.id.delete:
+    		//System.out.println("DELETE item: " + info.position);
+    		theItems = items.get(info.position);
+    		String itemId = theItems.getId();
+    		String itemName = theItems.getTitle();
+    		deleteItem(itemId, itemName);
+    		ParseObject.createWithoutData("Inventory", itemId).deleteEventually();
+    		Toast.makeText(ListItemActivity.this, "You have deleted item: " + " " + itemName , Toast.LENGTH_LONG).show();
+    		deleted = true;
+    		if (deleted = true){
+    			refreshItemList();
+    			deleted = false;
+    		}
+    		
+    		break;
+    	case R.id.edit:
+    		theItems = items.get(info.position);
+    		System.out.println("Edit item: " + info.position);
+    		break;
+    	default:
+    		refreshItemList();
+    		break;
+    	}
 
               return super.onContextItemSelected(item);
         }
@@ -212,6 +246,64 @@ public class ListItemActivity extends ListActivity {
 	    finish();
 	 
 	}
+	
+	/*
+	protected void deleteItem(String itemId, final String itemName){
+		
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Inventory");
+		query.whereEqualTo("objectid", itemId);
+
+		query.getFirstInBackground(new GetCallback<ParseObject>() {
+		  public void done(ParseObject object, ParseException e) {
+		    if (object == null) {
+			      object.deleteInBackground();
+			      Toast.makeText(ListItemActivity.this, "You have deleted item: " + " " + itemName , Toast.LENGTH_LONG).show();
+			      //((ArrayAdapter<ItemDetails>) getListAdapter()).notifyDataSetChanged();
+			      
+		    } else {
+
+		    }
+		  }
+		});
+
+	}
+	*/
+	
+	public void deleteItem(String itemId, final String itemName){
+		
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Inventory");
+		query.whereEqualTo("objectid", itemId);
+		query.findInBackground(new FindCallback<ParseObject>() {
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public void done(List<ParseObject> postList, ParseException e) {
+				setProgressBarIndeterminateVisibility(false);
+				if (e == null) {
+					// If there are results, update the list of posts
+					// and notify the adapter
+					// iterate over all messages and delete them
+		            for(ParseObject message : postList)
+		            {
+		                 message.deleteEventually();
+		                 System.out.println("YES");
+		            }
+				} else {
+					Log.d(getClass().getSimpleName(), "Error: " + e.getMessage());
+				}
+
+			}
+
+		});
+		
+
+            
+
+	}
+		            
+		
+
+	
 	
 	
 	/*

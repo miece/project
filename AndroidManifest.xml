@@ -88,6 +88,14 @@
             android:name=".ListCategoryItemActivity"
             android:label="@string/title_activity_list_category_item" >
         </activity>
+        <activity
+            android:name=".ExportActivity"
+            android:label="@string/title_activity_export" >
+        </activity>
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.CAMERA" />

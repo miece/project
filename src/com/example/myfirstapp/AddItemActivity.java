@@ -533,8 +533,10 @@ public class AddItemActivity extends Activity  {
 		        	}
 		        break;
 		        case 1: // Do your other stuff here...
+		        	if(resultCode != RESULT_CANCELED){
                     ocrText = data.getStringExtra("ocr");
                     titleEditText.setText(ocrText);
+		        	}
 		        break;
 		        case 2: // Do your other stuff here...
                     ocrText = data.getStringExtra("ocr");

@@ -768,7 +768,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         String strdata = intent.getExtras().getString("Uniqid");
 	    if(strdata.equals("from_Main"))
         {
-	        Intent i = new Intent(getApplicationContext(), AddItemActivity.class);
+	    	
+	    	Intent i = new Intent(getApplicationContext(), AddItemActivity.class);
 	        i.putExtra("Uniqid","from_OCR"); 
 	        i.putExtra("ocr", ocrResult.getText());
 	        //startActivity(i);

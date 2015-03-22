@@ -11,30 +11,49 @@ import com.parse.ParseUser;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
-public class SearchActivity extends ListActivity {
+public class SearchActivity extends Activity {
 
 	ArrayList<ItemDetails> itemList = new ArrayList<ItemDetails>();
 	private List<ItemDetails> items;
+	Context context = this;
 	
+	private EditText seachEditText;
+	private String itemTitle;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
 		
-		items = new ArrayList<ItemDetails>();
+
 		
-		ArrayAdapter<ItemDetails> adapter = new ArrayAdapter<ItemDetails>(this, R.layout.item_info, items);
-		setListAdapter(adapter);
+		seachEditText = (EditText) findViewById(R.id.myFilter);
+		
+		
+        View btnSearch = findViewById(R.id.search_button);
+        btnSearch.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	itemTitle = seachEditText.getText().toString();
+			    Intent intent = new Intent(context, FoundItemActivity.class);
+			    intent.putExtra("term", itemTitle);
+                startActivity(intent);   
+                
+            }
+        });
 		
 	}
 
@@ -82,7 +101,7 @@ public class SearchActivity extends ListActivity {
 						ItemDetails note = new ItemDetails(post.getObjectId(), post.getString("title"), post.getString("description"), post.getString("category"), post.getParseFile("photo"));
 						items.add(note);
 					}
-					((ArrayAdapter<ItemDetails>) getListAdapter()).notifyDataSetChanged();
+					//((ArrayAdapter<ItemDetails>) getListAdapter()).notifyDataSetChanged();
 				} else {
 					Log.d(getClass().getSimpleName(), "Error: " + e.getMessage());
 				}

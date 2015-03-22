@@ -64,11 +64,12 @@ public class ListCategoryActivity extends ListActivity {
 
 		
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Inventory");
+		query.whereEqualTo("author", ParseUser.getCurrentUser());
 		query.findInBackground(new FindCallback<ParseObject>() {
-		    public void done(List<ParseObject> scoreList, ParseException e) {
+		    public void done(List<ParseObject> itemList, ParseException e) {
 		        if (e == null) {
 
-		        	for (ParseObject ob : scoreList) {
+		        	for (ParseObject ob : itemList) {
 		        		categoryList.add(ob.getString("category"));
 		        	}
 		        	Set<String> set = new HashSet<String>();

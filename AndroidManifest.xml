@@ -96,6 +96,10 @@
             android:name=".SearchActivity"
             android:label="@string/title_activity_search" >
         </activity>
+        <activity
+            android:name=".FoundItemActivity"
+            android:label="@string/title_activity_found_item" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.CAMERA" />

@@ -428,7 +428,7 @@ public class AddItemActivity extends Activity  {
                 post.put("description", itemDetails);
                 post.put("category", itemCategory);
                 
-                if(imageFile != null && notPhoto == false){
+                if(imageFile != null && notPhoto != false){
                 	post.put("image", itemImage);
                     post.put("photo", imageFile);
                 }
@@ -495,14 +495,28 @@ public class AddItemActivity extends Activity  {
                 });
             }
         }
-        else if (itemTitle.isEmpty() && !itemDetails.isEmpty() || itemTitle.isEmpty() && !itemCategory.isEmpty()) {
+        if(itemTitle.isEmpty() && imageFile == null){
+        	AlertDialog.Builder builder = new AlertDialog.Builder(AddItemActivity.this);
+            builder.setMessage(R.string.edit_error_message)
+                .setTitle(R.string.edit_error_title)
+                .setPositiveButton(android.R.string.ok, null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            System.out.println(imageFile);
+        }
+        else if (itemTitle.isEmpty() && !itemDetails.isEmpty()) { // || itemTitle.isEmpty() && !itemCategory.isEmpty()
             AlertDialog.Builder builder = new AlertDialog.Builder(AddItemActivity.this);
             builder.setMessage(R.string.edit_error_message)
                 .setTitle(R.string.edit_error_title)
                 .setPositiveButton(android.R.string.ok, null);
             AlertDialog dialog = builder.create();
             dialog.show();
+            Toast.makeText(this, "You have chosen the item: " , Toast.LENGTH_LONG).show();
+            
+            
         }
+        
+
     }
 	
 	public void openCamera(){

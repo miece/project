@@ -103,10 +103,10 @@ public class ExportActivity extends Activity {
 					// iterate over all messages and delete them
 		            for(ParseObject message : postList)
 		            {
-		            	 tester.add(message.get("title").toString() + "," + message.get("description").toString() + "," + message.get("category").toString());
-		                 title_list.add(message.get("title").toString());
-		                 desc_list.add(message.get("description").toString());
-		                 category_list.add(message.get("category").toString());
+		            	 //tester.add(message.get("title").toString() + "," + message.get("description").toString() + "," + message.get("category").toString());
+		                 //title_list.add(message.get("title").toString());
+		                 //desc_list.add(message.get("description").toString());
+		                 //category_list.add(message.get("category").toString());
 		                 database.add(new String[] {message.get("title").toString(), message.get("description").toString(), message.get("category").toString()});
 		            }
 		            for (String[] strings : database) {
@@ -173,6 +173,7 @@ public class ExportActivity extends Activity {
 		            //System.out.println("category size: " + category_list.size());
 				} else {
 					Log.d(getClass().getSimpleName(), "Error: " + e.getMessage());
+					System.out.println(e.getMessage());
 				}
 
 			}

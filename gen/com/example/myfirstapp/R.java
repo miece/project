@@ -113,7 +113,8 @@ public final class R {
         public static final int shutter=0x7f02000b;
         public static final int shutter_button=0x7f02000c;
         public static final int shutter_pressed=0x7f02000d;
-        public static final int zxinglib_icon=0x7f02000e;
+        public static final int temp=0x7f02000e;
+        public static final int zxinglib_icon=0x7f02000f;
     }
     public static final class id {
         public static final int LinearLayout02=0x7f070035;

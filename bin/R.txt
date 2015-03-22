@@ -45,7 +45,8 @@ int drawable logo 0x7f02000a
 int drawable shutter 0x7f02000b
 int drawable shutter_button 0x7f02000c
 int drawable shutter_pressed 0x7f02000d
-int drawable zxinglib_icon 0x7f02000e
+int drawable temp 0x7f02000e
+int drawable zxinglib_icon 0x7f02000f
 int id LinearLayout02 0x7f070035
 int id LinearLayout03 0x7f070032
 int id action_logout 0x7f070054

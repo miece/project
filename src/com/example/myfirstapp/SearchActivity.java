@@ -48,6 +48,7 @@ public class SearchActivity extends Activity {
             @Override
             public void onClick(View v) {
             	itemTitle = seachEditText.getText().toString();
+            	System.out.println(itemTitle);
 			    Intent intent = new Intent(context, FoundItemActivity.class);
 			    intent.putExtra("term", itemTitle);
                 startActivity(intent);   

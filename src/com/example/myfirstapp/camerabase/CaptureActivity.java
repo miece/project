@@ -762,6 +762,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     //Intent i = new Intent(getApplicationContext(), MainActivity.class);
     //i.putExtra("ocr", ocrResult.getText());
     //startActivity(i);
+    
+    /*
     Intent intent = this.getIntent();
     if(intent !=null)
     {
@@ -777,8 +779,12 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 	        finish();
         }
     }
-
+*/
+    
+    
+    
     Intent i = new Intent();
+    System.out.println(ocrResult.getText());
     i.putExtra("ocr", ocrResult.getText());  // insert your extras here
     setResult(0, i);
     finish();

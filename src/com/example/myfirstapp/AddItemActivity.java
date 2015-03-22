@@ -82,7 +82,7 @@ public class AddItemActivity extends Activity  {
             }
         }).start();
 		
-		
+        
 		super.onCreate(savedInstanceState);
 		
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -117,6 +117,8 @@ public class AddItemActivity extends Activity  {
 					String descritpion = intent.getStringExtra("description");
 					String category = intent.getStringExtra("category");
 					String image = intent.getStringExtra("image");
+					
+					
 					
 					titleEditText.setText(title);
 				    detailsEditText.setText(descritpion);
@@ -416,7 +418,7 @@ public class AddItemActivity extends Activity  {
         // If user enters content with no title, give warning
         // If user enters both title and content, save
  
-        if (!itemTitle.isEmpty()) {
+        if (!itemTitle.isEmpty() && !itemCategory.isEmpty()) {
  
             // Check if post is being created or edited
  
@@ -424,14 +426,29 @@ public class AddItemActivity extends Activity  {
                 // create new post
  
                 ParseObject post = new ParseObject("Inventory");
+                itemTitle = itemTitle.toLowerCase();
+                itemDetails = itemDetails.toLowerCase();
+                itemCategory = itemCategory.toLowerCase();
                 post.put("title", itemTitle);
                 post.put("description", itemDetails);
                 post.put("category", itemCategory);
                 
-                if(imageFile != null && notPhoto != false){
+                if(!notPhoto){
+                	// if try to save item with no image - give defualt image
+                	if(imageFile == null){
+                    	bp = BitmapFactory.decodeResource(getResources(), R.drawable.temp);
+            	        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            	        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            	        byteArray = stream.toByteArray();
+            	        imageFile = new ParseFile("photo.jpg",byteArray);
+            	        itemImage = "blank";
+                	}
                 	post.put("image", itemImage);
                     post.put("photo", imageFile);
+                    
+                    
                 }
+                
                 else{
 			        ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -440,6 +457,7 @@ public class AddItemActivity extends Activity  {
                     post.put("photo", imageFile);
                     notPhoto = false;
                 }
+                
                 post.put("author", ParseUser.getCurrentUser());
                 setProgressBarIndeterminateVisibility(true);
                 post.saveInBackground(new SaveCallback() {
@@ -469,10 +487,22 @@ public class AddItemActivity extends Activity  {
                   public void done(ParseObject post, ParseException e) {
                     if (e == null) {
                       // Now let's update it with some new data.
+                        itemTitle = itemTitle.toLowerCase();
+                        itemDetails = itemDetails.toLowerCase();
+                        itemCategory = itemCategory.toLowerCase();
                         post.put("title", itemTitle);
                         post.put("description", itemDetails);
                         post.put("category", itemCategory);
-                        //post.put("photo", byteArray);
+                        if(notPhoto){
+                        	System.out.println("Here");
+        			        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        			        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        			        byteArray = stream.toByteArray();
+        			        imageFile = new ParseFile("photo.jpg",byteArray);
+                            post.put("photo", imageFile);
+                            notPhoto = false;
+                        }
+                        
                         post.put("author", ParseUser.getCurrentUser());
                         setProgressBarIndeterminateVisibility(true);
                         post.saveInBackground(new SaveCallback() {
@@ -495,16 +525,22 @@ public class AddItemActivity extends Activity  {
                 });
             }
         }
-        if(itemTitle.isEmpty() && imageFile == null){
-        	AlertDialog.Builder builder = new AlertDialog.Builder(AddItemActivity.this);
-            builder.setMessage(R.string.edit_error_message)
+        else if (itemTitle.isEmpty() || itemCategory.isEmpty()) { // || itemTitle.isEmpty() && !itemCategory.isEmpty()
+        	String alertHeader = "Please Enter: ";
+        	String alertTitle = "Title";
+        	String alertCate = "Category";
+            AlertDialog.Builder builder = new AlertDialog.Builder(AddItemActivity.this);
+            builder.setMessage(alertHeader + "\n" + alertTitle + "\n" + alertCate)
                 .setTitle(R.string.edit_error_title)
                 .setPositiveButton(android.R.string.ok, null);
             AlertDialog dialog = builder.create();
             dialog.show();
-            System.out.println(imageFile);
         }
-        else if (itemTitle.isEmpty() && !itemDetails.isEmpty()) { // || itemTitle.isEmpty() && !itemCategory.isEmpty()
+
+        /*
+        else if(imageFile == null){
+        	System.out.println(imageFile);
+        	System.out.println("title: " +itemTitle);
             AlertDialog.Builder builder = new AlertDialog.Builder(AddItemActivity.this);
             builder.setMessage(R.string.edit_error_message)
                 .setTitle(R.string.edit_error_title)
@@ -512,10 +548,37 @@ public class AddItemActivity extends Activity  {
             AlertDialog dialog = builder.create();
             dialog.show();
             Toast.makeText(this, "You have chosen the item: " , Toast.LENGTH_LONG).show();
-            
-            
         }
-        
+        */
+        /*
+        if(imageFile == null){
+        	bp = BitmapFactory.decodeResource(getResources(), R.drawable.temp);
+	        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+	        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+	        byteArray = stream.toByteArray();
+	        imageFile = new ParseFile("photo.jpg",byteArray);
+	        itemImage = "blank";
+        }
+	*/
+
+        /*
+        if(itemTitle.isEmpty()){
+        	String alert1 = "Please enter";
+        	String alert2 = "Title";
+        	String alert3 = "Category";
+        	String alert4 = "Image";
+        	
+            AlertDialog.Builder builder = new AlertDialog.Builder(AddItemActivity.this);
+            builder.setMessage("Please enter:")
+            
+                .setTitle(R.string.edit_error_title)
+                .setPositiveButton(android.R.string.ok, null);
+            builder.setMessage(alert1 +"\n"+ alert2 +"\n"+ alert3 +"\n" + alert4);  
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        */
 
     }
 	
@@ -548,6 +611,7 @@ public class AddItemActivity extends Activity  {
 		        break;
 		        case 1: // Do your other stuff here...
 		        	if(resultCode != RESULT_CANCELED){
+		        	System.out.println("got here");
                     ocrText = data.getStringExtra("ocr");
                     titleEditText.setText(ocrText);
 		        	}

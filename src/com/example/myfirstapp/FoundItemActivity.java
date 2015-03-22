@@ -42,7 +42,9 @@ public class FoundItemActivity extends ListActivity {
 			title = bundle.getString("term");
 			title = title.toLowerCase();
 			
+			
 		}
+		System.out.println(title);
 		searchItem(title);
 
 		
@@ -110,6 +112,7 @@ public class FoundItemActivity extends ListActivity {
 		        		titleList.add(ob.getString("title"));
 						ItemDetails note = new ItemDetails(ob.getObjectId(), ob.getString("title"), ob.getString("description"), ob.getString("category"), ob.getParseFile("photo"));
 						items.add(note);
+						System.out.println(ob.getString("title"));
 		        	}
 					((ArrayAdapter<ItemDetails>) getListAdapter()).notifyDataSetChanged();
 				} else {

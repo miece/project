@@ -91,7 +91,7 @@ public class ListItemActivity extends ListActivity {
             Intent intent = new Intent(this, AddItemActivity.class);
             intent.putExtra("Uniqid","from_List_Activity_Menu"); 
             startActivity(intent);
-            finish();
+            //finish();
             break;
         }
         case R.id.action_settings: {
@@ -243,7 +243,7 @@ public class ListItemActivity extends ListActivity {
 	    intent.putExtra("itemImage", theItems.getPhoto().getUrl());
 	    //System.out.println(theItems.getPhoto().getUrl());
 	    startActivity(intent);
-	    finish();
+	    //finish();
 	 
 	}
 	

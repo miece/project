@@ -216,8 +216,8 @@ public class AddItemActivity extends Activity  {
 		cancelButton.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
-	        	startActivity(intent);
+	        	//Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
+	        	//startActivity(intent);
 	        	finish();
 	        }
 	    });

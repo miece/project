@@ -72,6 +72,7 @@ public class MainActivity extends Activity {
 	String thecode = "";
 	String theTitle = "";
 	String ocrText = "";
+	Boolean scan = false;
 	
 	org.jsoup.nodes.Document doc1;
 	
@@ -591,7 +592,7 @@ isFirst = true;
 
                             
                             startActivity(intent); 
-                            finish();
+                            //finish();
 
                         }
                     });
@@ -604,7 +605,8 @@ isFirst = true;
                 //ocrText = ocrText.replaceAll("ISBN", "");
                 //Log.d("dir", ocrText);
                 System.out.println(ocrText);
-            	}
+            	//}
+                scan = true;
             	
             	
                 if (ocrText != null) {
@@ -682,19 +684,21 @@ isFirst = true;
                             */
                             
 
-                            
+                            if(scan){
                             startActivity(intent); 
-                            finish();
+                            }
+                            //finish();
                             
 
                         }
                         
                     });
-                }
+                }}
             	
             	else{
             		Toast toast = Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG);
                     toast.show();
+                    scan = false;
             	}
 
                 break;

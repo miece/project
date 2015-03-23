@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -17,10 +17,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.htmlcleaner.CleanerProperties;
-import org.htmlcleaner.HtmlCleaner;
-import org.htmlcleaner.TagNode;
-import org.htmlcleaner.XPatherException;
+
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,34 +31,30 @@ import org.jsoup.Jsoup;
 
 import com.example.myfirstapp.amazonSigner.SignedRequestsHelper;
 import com.example.myfirstapp.camerabase.CaptureActivity;
-import com.parse.Parse;
-import com.parse.ParseObject;
+
 import com.parse.ParseUser;
 
 import jim.h.common.android.lib.zxing.config.ZXingLibConfig;
 import jim.h.common.android.lib.zxing.integrator.IntentIntegrator;
-//import jim.h.common.android.lib.zxing.sample.ZXingLibSampleActivity;
-//import jim.h.common.android.lib.zxing.sample.R;
+
 import jim.h.common.android.lib.zxing.integrator.IntentResult;
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.util.Log;
-import android.view.LayoutInflater;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.os.Build;
+
 
 
 
@@ -156,7 +149,7 @@ public class MainActivity extends Activity {
         });
         
         
-        addListenerOnButton();
+        //addListenerOnButton();
         openViewItem();
     }
     

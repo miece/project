@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +25,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends BaseActivity {
 
 	ArrayList<ItemDetails> itemList = new ArrayList<ItemDetails>();
 	private List<ItemDetails> items;
@@ -36,8 +37,11 @@ public class SearchActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_search);
-		
+		//setContentView(R.layout.activity_search);
+		LayoutInflater inflater = (LayoutInflater) this
+	            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    View contentView = inflater.inflate(R.layout.activity_search, null, false);
+	    mDrawerLayout.addView(contentView, 0); 
 
 		
 		seachEditText = (EditText) findViewById(R.id.myFilter);

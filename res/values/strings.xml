@@ -48,5 +48,10 @@
     <string name="title_activity_export">Export Inventory</string>
     <string name="title_activity_search">Search</string>
     <string name="title_activity_found_item">Result</string>
+    <string name="title_activity_sample">SampleActivity</string>
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
+    <string name="app_description">Android drawer icon with material design animation</string>
+    <string name="title_activity_test">TestActivity</string>
 
 </resources>

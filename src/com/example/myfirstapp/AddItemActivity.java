@@ -31,6 +31,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -42,7 +43,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AddItemActivity extends Activity  {
+public class AddItemActivity extends BaseActivity  {
 	
 	//private TextView       txtScanResult;
 	private EditText name;
@@ -75,7 +76,7 @@ public class AddItemActivity extends Activity  {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         new Thread(new Runnable() { 
             public void run(){
                //All your heavy stuff here!!!
@@ -85,11 +86,17 @@ public class AddItemActivity extends Activity  {
         
 		super.onCreate(savedInstanceState);
 		
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		//requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		//getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		
-		setContentView(R.layout.add_item);
+		//setContentView(R.layout.add_item);
+		LayoutInflater inflater = (LayoutInflater) this
+	            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    View contentView = inflater.inflate(R.layout.add_item, null, false);
+	    mDrawerLayout.addView(contentView, 0); 
+		
+	    
 		Intent intent = this.getIntent();
 		
 		
@@ -228,6 +235,7 @@ public class AddItemActivity extends Activity  {
 	        @Override
 	        public void onClick(View v) {
 	            saveItem();
+	            
 	        }
 	    });
 	    
@@ -467,7 +475,8 @@ public class AddItemActivity extends Activity  {
                             // Saved successfully.
                             Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
                         	Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
-                        	startActivity(intent);
+                        	//startActivity(intent);
+                        	finish();
                         } else {
                             // The save failed.
                             Toast.makeText(getApplicationContext(), "Failed to Save", Toast.LENGTH_SHORT).show();
@@ -512,7 +521,8 @@ public class AddItemActivity extends Activity  {
                                     // Saved successfully.
                                     Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
                                 	Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
-                                	startActivity(intent);
+                                	//startActivity(intent);
+                                	finish();
                                 } else {
                                     // The save failed.
                                     Toast.makeText(getApplicationContext(), "Failed to Save", Toast.LENGTH_SHORT).show();
@@ -579,7 +589,7 @@ public class AddItemActivity extends Activity  {
             dialog.show();
         }
         */
-
+        
     }
 	
 	public void openCamera(){

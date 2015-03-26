@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -83,6 +84,8 @@ public class AddItemActivity extends BaseActivity  {
             }
         }).start();
 		
+        //FrameLayout linear = (FrameLayout) findViewById(R.id.content_frame);
+        //linear.setBackgroundResource(0);
         
 		super.onCreate(savedInstanceState);
 		

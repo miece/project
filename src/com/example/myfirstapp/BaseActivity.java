@@ -50,15 +50,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +73,7 @@ import com.example.myfirstapp.amazonSigner.SignedRequestsHelper;
 import com.example.myfirstapp.camerabase.CaptureActivity;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
+
 import com.parse.ParseUser;
 
 
@@ -74,6 +81,11 @@ public class BaseActivity extends Activity {
 
     protected DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private CharSequence mDrawerTitle;
+    private LinearLayout mLinear;
+    
+    FrameLayout frameLayout;
+    
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
     private boolean drawerArrowColor;
@@ -93,11 +105,21 @@ public class BaseActivity extends Activity {
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	
+    	 mDrawerTitle = getTitle();
+    	 System.out.println(getTitle());
+    	 
+
+    	 
+    	 
+    	 
     	if (android.os.Build.VERSION.SDK_INT > 9) {
     	    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
     	    StrictMode.setThreadPolicy(policy);
     	}
+    	
+
+    	    
+    	
     	
     	ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser == null) {
@@ -114,9 +136,10 @@ public class BaseActivity extends Activity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeButtonEnabled(true);
 
-
+        LayoutInflater inflater = getLayoutInflater();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.navdrawer);
+        mLinear = (LinearLayout) findViewById(R.id.header);
 
 
         drawerArrow = new DrawerArrowDrawable(this) {
@@ -673,10 +696,10 @@ public boolean onCreateOptionsMenu(Menu menu) {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
-                mDrawerLayout.closeDrawer(mDrawerList);
+            if (mDrawerLayout.isDrawerOpen(mLinear)) {
+                mDrawerLayout.closeDrawer(mLinear);
             } else {
-                mDrawerLayout.openDrawer(mDrawerList);
+                mDrawerLayout.openDrawer(mLinear);
             }
         }
         

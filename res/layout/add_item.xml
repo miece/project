@@ -60,7 +60,7 @@
         android:id="@+id/pub_relDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Author/Artist" />
+        android:text="Release/Publish Date" />
         
     	<EditText
         android:id="@+id/publish_release_date"

@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 public class SearchActivity extends BaseActivity {
 
@@ -42,6 +43,9 @@ public class SearchActivity extends BaseActivity {
 	            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View contentView = inflater.inflate(R.layout.activity_search, null, false);
 	    mDrawerLayout.addView(contentView, 0); 
+	    
+	    LinearLayout  linearLayout = (LinearLayout) findViewById(R.id.linearLayoutid);
+		 linearLayout.setBackgroundResource(0);
 
 		
 		seachEditText = (EditText) findViewById(R.id.myFilter);
@@ -52,7 +56,7 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
             	itemTitle = seachEditText.getText().toString();
-            	System.out.println(itemTitle);
+            	//System.out.println(itemTitle);
 			    Intent intent = new Intent(context, FoundItemActivity.class);
 			    intent.putExtra("term", itemTitle);
                 startActivity(intent);   
@@ -103,7 +107,7 @@ public class SearchActivity extends BaseActivity {
 					// and notify the adapter
 					items.clear();
 					for (ParseObject post : postList) {
-						ItemDetails note = new ItemDetails(post.getObjectId(), post.getString("title"), post.getString("description"), post.getString("category"), post.getParseFile("photo"));
+						ItemDetails note = new ItemDetails(post.getObjectId(), post.getString("title"), post.getString("description"), post.getString("category"), post.getParseFile("photo"), post.getString("author_artist"),post.getString("releaseDate"));
 						items.add(note);
 					}
 					//((ArrayAdapter<ItemDetails>) getListAdapter()).notifyDataSetChanged();

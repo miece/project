@@ -49,6 +49,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -106,9 +108,14 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	 mDrawerTitle = getTitle();
-    	 System.out.println(getTitle());
     	 
+    	 
+    	 System.out.println(isNetworkAvailable());
+    	 if(!isNetworkAvailable()){
+    		 showNetToast();
 
+    		 
+    	 }
     	 
     	 
     	 
@@ -227,12 +234,14 @@ private String amazonReturnDetails(String barcode) throws InvalidKeyException, N
 		map.put("Keywords", barcode);
 		map.put("Operation", "ItemSearch");
 		map.put("SearchIndex", "All");
-		map.put("ResponseGroup", "EditorialReview, Small, Images");
+		map.put("ResponseGroup", "EditorialReview, Medium, Images");
 		map.put("Service", "AWSECommerceService");
 		map.put("Version", "2011-08-01");
 		
 		
 		String signedUrl = hq.sign(map);
+		
+		
 		
 		URL url = null;
 		String inputLine;
@@ -370,6 +379,36 @@ private static Map<String,String> parseXML(String xml) throws ParserConfiguratio
             	xmlValues.put("Artist", "");
             }
             
+            // RELEASE DATE
+            NodeList releaseNodeElement = firstPersonElement.getElementsByTagName("ReleaseDate");
+            if(releaseNodeElement.getLength() == 1){
+                Element releaseElement = (Element)releaseNodeElement.item(0);
+
+                NodeList releaseText = releaseElement.getChildNodes();
+
+                xmlValues.put("Release", ((Node)releaseText.item(0)).getNodeValue().trim());
+            	
+            }
+            else
+            {
+            	xmlValues.put("Release", "");
+            }
+            
+            // PUBLICATION DATE
+            NodeList publishNodeElement = firstPersonElement.getElementsByTagName("PublicationDate");
+            if(publishNodeElement.getLength() == 1){
+                Element publishElement = (Element)publishNodeElement.item(0);
+
+                NodeList publishText = publishElement.getChildNodes();
+
+                xmlValues.put("Publish", ((Node)publishText.item(0)).getNodeValue().trim());
+            	
+            }
+            else
+            {
+            	xmlValues.put("Publish", "");
+            }
+            
             isFirst = false;
 
         }//end of if clause
@@ -505,6 +544,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         String description = "";
                         String price = "";
                         String image = "";
+                        String publish = "";
+                        String release = "";
                         try {
                         	// scrape html to get result of title
 
@@ -512,6 +553,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         	test = amazonReturnDetails(result);
                         	
                     		item = parseXML(test).get("ProductGroup");
+                    		//System.out.println("itesm: " + item);
                     		title = parseXML(test).get("Title");
                     		manufacturer =  parseXML(test).get("Manufacturer");
                     		artist =  parseXML(test).get("Artist");
@@ -519,16 +561,19 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     		description =  parseXML(test).get("Content");
                     		price =  parseXML(test).get("Price");
                     		image =  parseXML(test).get("Image");
+                    		publish =  parseXML(test).get("Publish");
+                    		release =  parseXML(test).get("Release");
                     		
                     		doc1 = Jsoup.parse(description);
                     		description = doc1.text();
-                        	
+                    		//System.out.println(item);
                     		
                         	
 							//Log.d("---------", getBlogStats());
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+							System.out.println("ERROR");
 						}
                         
 
@@ -545,7 +590,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         intent.putExtras(extras);
                         ****/
                         
-                        
+                        //System.out.println(test);
                         intent.putExtra("Uniqid","from_Main"); 
                         intent.putExtra("title", title);
                         intent.putExtra("description", description);
@@ -553,13 +598,28 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         intent.putExtra("price", price);
                         intent.putExtra("image", image);
                         intent.putExtra("manufacturer", manufacturer);
+                       
                         
-                        if(item.equals("Book") || item.equals("eBooks")){
-                        	intent.putExtra("author", author);
+                        
+                        if(item != null){
+	                        if(item.equals("Book") || item.equals("eBooks")){
+	                        	
+	                        	intent.putExtra("author", author);
+	                        	intent.putExtra("release", publish);
+	                        }
+
+	                        if(item.equals("Music")){
+	                        	intent.putExtra("author", artist);
+	                        	intent.putExtra("release", release);
+	                        }
+                            if(item.equals("DVD") || item.equals("VideoGames")){
+                            	intent.putExtra("release", release);
+                            }
                         }
-                        if(item.equals("Music")){
-                        	intent.putExtra("artist", artist);
+                        else{
+                        	intent.putExtra("notFound", "No item found. Please enter it manually");
                         }
+
                         
                         
 
@@ -572,15 +632,18 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             }
             break;
         case 11: 
-        	if(resultCode != RESULT_CANCELED){
+        	if(data != null){
             ocrText = data.getStringExtra("ocr");
-            //ocrText = ocrText.replaceAll("[\\s\\-()]", "");
+            //System.out.println("OCR" + ocrText);
+            ocrText = ocrText.replaceAll("[\\s\\-()]", "");
+
             //ocrText = ocrText.replaceAll("ISBN", "");
             //Log.d("dir", ocrText);
-            System.out.println(ocrText);
+            
         	//}
-            scan = true;
         	
+        	
+            
         	
             if (ocrText != null) {
                 handler.post(new Runnable() {
@@ -598,12 +661,16 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         String description = "";
                         String price = "";
                         String image = "";
+                        String publish = "";
+                        String release = "";
+                        //System.out.println(ocrText);
                         try {
                         	// scrape html to get result of title
-
+                        	ocrText = ocrText.replaceAll("[\\s\\-()]", "");
+                        	System.out.println(ocrText);
                         	//txtScanResult.setText(value);
                         	test = amazonReturnDetails(ocrText);
-                        	
+                        	System.out.println(test);
                     		item = parseXML(test).get("ProductGroup");
                     		title = parseXML(test).get("Title");
                     		manufacturer =  parseXML(test).get("Manufacturer");
@@ -612,10 +679,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     		description =  parseXML(test).get("Content");
                     		price =  parseXML(test).get("Price");
                     		image =  parseXML(test).get("Image");
+                    		publish =  parseXML(test).get("Publish");
+                    		release =  parseXML(test).get("Release");
                     		
                     		doc1 = Jsoup.parse(description);
                     		description = doc1.text();
-                        	
+                        	System.out.println(release);
                     		
                         	
 							//Log.d("---------", getBlogStats());
@@ -635,44 +704,44 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         intent.putExtra("price", price);
                         intent.putExtra("image", image);
                         intent.putExtra("manufacturer", manufacturer);
+                        intent.putExtra("publish", publish);
                         
+                        //System.out.println(test);
                         if(item != null){
                             if(item.equals("Book") || item.equals("eBooks")){
                             	intent.putExtra("author", author);
+                            	intent.putExtra("release", publish);
                             }
                             if(item.equals("Music")){
                             	intent.putExtra("artist", artist);
+                            	intent.putExtra("release", release);
+                            }
+                            if(item.equals("DVD") || item.equals("VideoGames")){
+                            	intent.putExtra("release", release);
                             }
                         }
                         else
                         {
+                        	intent.putExtra("notFound", "No item found for isbn: " + ocrText + ". Please check isbn number or enter item manually");
                         }
-                        /*
-                        if(item.equals("Book") || item.equals("eBooks")){
-                        	intent.putExtra("author", author);
-                        }
-                        if(item.equals("Music")){
-                        	intent.putExtra("artist", artist);
-                        }
-                        */
+
                         
 
-                        if(scan){
+
                         startActivity(intent); 
-                        }
-                        //finish();
+
+                    
+
                         
 
                     }
-                    
+                
                 });
-            }}
-        	
-        	else{
-        		Toast toast = Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG);
-                toast.show();
-                scan = false;
+            }
         	}
+
+        	
+            
 
             break;
         default:
@@ -721,4 +790,25 @@ public boolean onCreateOptionsMenu(Menu menu) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+    
+    
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager 
+              = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    
+    private void showNetToast(){
+		 Toast toast = Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG);
+		 View view = toast.getView();
+		 view.setBackgroundResource(R.color.toast_nointernet_color);
+		 TextView text = (TextView) view.findViewById(android.R.id.message);
+		 /*here you can do anything with text*/
+		 toast.show();
+		 //Toast.makeText(context,"No Internet Connection",1000).show();
+    }
+    
 }
+
+

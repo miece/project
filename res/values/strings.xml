@@ -43,7 +43,7 @@
     <string name="title_activity_camera">CameraActivity</string>
     <string name="tap">Tap the image to open the camera!!</string>
     <string name="title_activity_view_item">ViewItem</string>
-    <string name="title_activity_list_category">ListCategoryActivity</string>
+    <string name="title_activity_list_category">Category List</string>
     <string name="title_activity_list_category_item">Category List</string>
     <string name="title_activity_export">Export Inventory</string>
     <string name="title_activity_search">Search</string>

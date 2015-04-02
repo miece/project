@@ -58,10 +58,17 @@ public class AddItemActivity extends BaseActivity  {
 	private EditText titleEditText;
 	private EditText detailsEditText;
 	private EditText categoryEditText;
+	private EditText authorEditText;
+	private EditText publishEditText;
+	
 	private String itemTitle;
 	private String itemDetails;
 	private String itemCategory;
 	private String itemImage;
+	private String itemAuthor_artist;
+	private String barcode;
+	private String itemReleaseDate;
+	
 	private ImageView imgView;
 	
 	// edit text focus storage
@@ -72,6 +79,8 @@ public class AddItemActivity extends BaseActivity  {
 	private Button cancelButton;
 	private ImageButton photoButton;
 	private Button ocrButton;
+	
+	
 	
 	Context context = this;
 	
@@ -84,10 +93,17 @@ public class AddItemActivity extends BaseActivity  {
             }
         }).start();
 		
+
+        
+        
         //FrameLayout linear = (FrameLayout) findViewById(R.id.content_frame);
         //linear.setBackgroundResource(0);
         
 		super.onCreate(savedInstanceState);
+		
+		
+		LinearLayout  linearLayout = (LinearLayout) findViewById(R.id.linearLayoutid);
+		 linearLayout.setBackgroundResource(0);
 		
 		//requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		//getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -103,10 +119,11 @@ public class AddItemActivity extends BaseActivity  {
 		Intent intent = this.getIntent();
 		
 		
-		
+		authorEditText = (EditText) findViewById(R.id.author_artist);
 		titleEditText = (EditText) findViewById(R.id.itemTitle);
 	    detailsEditText = (EditText) findViewById(R.id.itemDetailsInput);
 	    categoryEditText = (EditText) findViewById(R.id.itemCategory);
+	    publishEditText = (EditText) findViewById(R.id.publish_release_date);
 
 	    
 	    imgView = (ImageView) findViewById(R.id.imageView1);
@@ -123,16 +140,27 @@ public class AddItemActivity extends BaseActivity  {
 	        {
 		    	
 				if (intent.getExtras() != null) {
+					
+					if(intent.getExtras().containsKey("notFound")){
+						Toast.makeText(getApplicationContext(), "Item not found. Please enter it manually", Toast.LENGTH_SHORT).show();
+					}
+					else{
 					String title = intent.getStringExtra("title");
 					String descritpion = intent.getStringExtra("description");
 					String category = intent.getStringExtra("category");
 					String image = intent.getStringExtra("image");
-					
-					
+					String author = intent.getStringExtra("author");
+					String date = intent.getStringExtra("release");
+
+					//System.out.println(author);
 					
 					titleEditText.setText(title);
 				    detailsEditText.setText(descritpion);
 				    categoryEditText.setText(category);
+				    authorEditText.setText(author);
+				    publishEditText.setText(date);
+
+				    
 				    itemImage = image;
 				    
 				    try{
@@ -162,6 +190,7 @@ public class AddItemActivity extends BaseActivity  {
 				    	
 				    }
 				}
+				}
 	        }
 	        if(strdata.equals("from_OCR"))
 	        {
@@ -172,11 +201,14 @@ public class AddItemActivity extends BaseActivity  {
 	        if(strdata.equals("from_List_Activity"))
 	        {
 	    	    if (intent.getExtras() != null) {
-	    	        item = new ItemDetails(intent.getStringExtra("itemId"), intent.getStringExtra("itemTitle"), intent.getStringExtra("itemContent"), intent.getStringExtra("itemCategory"));
+	    	        item = new ItemDetails(intent.getStringExtra("itemId"), intent.getStringExtra("itemTitle"), intent.getStringExtra("itemContent"), intent.getStringExtra("itemCategory"), intent.getStringExtra("itemAuthor_artist"), intent.getStringExtra("itemReleaseDate"));
 	    	        String imageUrl = intent.getStringExtra("itemImage");
 	    	        titleEditText.setText(item.getTitle());
 	    	        detailsEditText.setText(item.getContent());
 	    	        categoryEditText.setText(item.getCategory());
+	    	        authorEditText.setText(item.getAuthor_Artist());
+	    	        publishEditText.setText(item.getReleaseDate());
+	    	        
 	    	        Picasso.with(this).load(imageUrl).into(imgView);
 	    	    }
 	        }
@@ -280,7 +312,7 @@ public class AddItemActivity extends BaseActivity  {
                 	Intent intent = new Intent(context, com.example.myfirstapp.camerabase.CaptureActivity.class);
             		//startActivity(intent);
                 	startActivityForResult(intent, 1);
-            		
+            		System.out.println(evalue);
                 	/*
                     Bundle extras = getIntent().getExtras();
                     if (extras != null) {
@@ -291,13 +323,19 @@ public class AddItemActivity extends BaseActivity  {
                 	//titleEditText.setText(ocrText);
                     //e1.setText("yes");
                 }
-                if(evalue=="2")
+                else if(evalue=="2")
                 {
+                	System.out.println(evalue);
                 	Intent intent = new Intent(context, com.example.myfirstapp.camerabase.CaptureActivity.class);
             		//startActivity(intent);
                 	startActivityForResult(intent, 2);
                     //e2.setText("yes");
                 }
+                else{
+                	Toast.makeText(getApplicationContext(), "Please select a text box first then click the ocr button", Toast.LENGTH_SHORT).show();
+                }
+                System.out.println(evalue);
+                /*
                 if(evalue=="3")
                 {
                     //e2.setText("yes");
@@ -305,6 +343,7 @@ public class AddItemActivity extends BaseActivity  {
                 else{
                 	Toast.makeText(getApplicationContext(), "Please select a text box first then click the ocr button", Toast.LENGTH_SHORT).show();
                 }
+                */
             }
         });
 
@@ -418,11 +457,15 @@ public class AddItemActivity extends BaseActivity  {
         itemTitle = titleEditText.getText().toString();
         itemDetails = detailsEditText.getText().toString();
         itemCategory = categoryEditText.getText().toString();
+        itemAuthor_artist = authorEditText.getText().toString();
+        itemReleaseDate = publishEditText.getText().toString();
         
         //imageFile = new ParseFile("meal_photo.jpg", byteArray);
         itemTitle = itemTitle.trim();
         itemDetails = itemDetails.trim();
         itemCategory = itemCategory.trim();
+        itemAuthor_artist = itemAuthor_artist.trim();
+        itemReleaseDate = itemReleaseDate.trim();
  
         // If user doesn't enter a title or content, do nothing
         // If user enters title, but no content, save
@@ -440,14 +483,19 @@ public class AddItemActivity extends BaseActivity  {
                 itemTitle = itemTitle.toLowerCase();
                 itemDetails = itemDetails.toLowerCase();
                 itemCategory = itemCategory.toLowerCase();
+                itemAuthor_artist = itemAuthor_artist.toLowerCase();
+                itemReleaseDate = itemReleaseDate.toLowerCase();
+
                 post.put("title", itemTitle);
                 post.put("description", itemDetails);
                 post.put("category", itemCategory);
-                
+                post.put("author_artist", itemAuthor_artist);
+                post.put("releaseDate", itemReleaseDate);
+                post.put("barcode", "0");
                 if(!notPhoto){
                 	// if try to save item with no image - give defualt image
                 	if(imageFile == null){
-                    	bp = BitmapFactory.decodeResource(getResources(), R.drawable.temp);
+                    	bp = BitmapFactory.decodeResource(getResources(), R.drawable.no_image);
             	        ByteArrayOutputStream stream = new ByteArrayOutputStream();
             	        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             	        byteArray = stream.toByteArray();
@@ -477,7 +525,7 @@ public class AddItemActivity extends BaseActivity  {
                         if (e == null) {
                             // Saved successfully.
                             Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-                        	Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
+                        	//Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
                         	//startActivity(intent);
                         	finish();
                         } else {
@@ -502,11 +550,16 @@ public class AddItemActivity extends BaseActivity  {
                         itemTitle = itemTitle.toLowerCase();
                         itemDetails = itemDetails.toLowerCase();
                         itemCategory = itemCategory.toLowerCase();
+                        itemAuthor_artist = itemAuthor_artist.toLowerCase();
+                        itemReleaseDate = itemReleaseDate.toLowerCase();
                         post.put("title", itemTitle);
                         post.put("description", itemDetails);
                         post.put("category", itemCategory);
+                        post.put("author_artist", itemAuthor_artist);
+                        post.put("releaseDate", itemReleaseDate);
+                        post.put("barcode", "0");
                         if(notPhoto){
-                        	System.out.println("Here");
+                        	//System.out.println("Here");
         			        ByteArrayOutputStream stream = new ByteArrayOutputStream();
         			        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
         			        byteArray = stream.toByteArray();
@@ -623,16 +676,20 @@ public class AddItemActivity extends BaseActivity  {
 		        	}
 		        break;
 		        case 1: // Do your other stuff here...
-		        	if(resultCode != RESULT_CANCELED){
-		        	System.out.println("got here");
-                    ocrText = data.getStringExtra("ocr");
-                    titleEditText.setText(ocrText);
-		        	}
+		        	if(data!=null){
+			        	//System.out.println("got here");
+	                    ocrText = data.getStringExtra("ocr");
+	                    titleEditText.setText(ocrText);
+                    }
+		        	
 		        break;
 		        case 2: // Do your other stuff here...
+		        	if(data != null){
                     ocrText = data.getStringExtra("ocr");
                     detailsEditText.setText(ocrText);
+		        	}
 		        break;
+		        
 		    }
 		}
 	

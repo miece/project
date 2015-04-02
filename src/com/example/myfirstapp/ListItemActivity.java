@@ -14,7 +14,10 @@ import com.parse.ParseUser;
 
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -28,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseQuery;
@@ -41,12 +45,19 @@ public class ListItemActivity extends ListActivity {
 	private ItemDetails contextPos;
 	boolean deleted = false;
 	
+	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.list_item);
+        
+        
+        if(!isNetworkAvailable()){
+        	
+        	showNetToast();
+        }
         
         
         registerForContextMenu(getListView());
@@ -211,7 +222,7 @@ public class ListItemActivity extends ListActivity {
 					// and notify the adapter
 					items.clear();
 					for (ParseObject post : postList) {
-						ItemDetails note = new ItemDetails(post.getObjectId(), post.getString("title"), post.getString("description"), post.getString("category"), post.getParseFile("photo"));
+						ItemDetails note = new ItemDetails(post.getObjectId(), post.getString("title"), post.getString("description"), post.getString("category"), post.getParseFile("photo"), post.getString("author_artist"), post.getString("releaseDate"));
 						items.add(note);
 					}
 					((ArrayAdapter<ItemDetails>) getListAdapter()).notifyDataSetChanged();
@@ -241,6 +252,8 @@ public class ListItemActivity extends ListActivity {
 	    intent.putExtra("itemContent", theItems.getContent());
 	    intent.putExtra("itemCategory", theItems.getCategory());
 	    intent.putExtra("itemImage", theItems.getPhoto().getUrl());
+	    intent.putExtra("itemAuthor_artist", theItems.getAuthor_Artist());
+	    intent.putExtra("itemReleaseDate", theItems.getReleaseDate());
 	    //System.out.println(theItems.getPhoto().getUrl());
 	    startActivity(intent);
 	    //finish();
@@ -326,7 +339,22 @@ public class ListItemActivity extends ListActivity {
 	}
 	*/
 	
-	
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager 
+              = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    
+    private void showNetToast(){
+		 Toast toast = Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG);
+		 View view = toast.getView();
+		 view.setBackgroundResource(R.color.toast_nointernet_color);
+		 TextView text = (TextView) view.findViewById(android.R.id.message);
+		 /*here you can do anything with text*/
+		 toast.show();
+		 //Toast.makeText(context,"No Internet Connection",1000).show();
+    }
 	
 }
 

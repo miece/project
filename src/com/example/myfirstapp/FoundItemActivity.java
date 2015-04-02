@@ -11,7 +11,10 @@ import com.parse.ParseException;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class FoundItemActivity extends ListActivity {
 	
@@ -31,6 +36,12 @@ public class FoundItemActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_item);
+		
+		
+        if(!isNetworkAvailable()){
+        	
+        	showNetToast();
+        }
 		
 		
 		items = new ArrayList<ItemDetails>();
@@ -110,7 +121,7 @@ public class FoundItemActivity extends ListActivity {
 					// and notify the adapter
 		        	for (ParseObject ob : itemList) {
 		        		titleList.add(ob.getString("title"));
-						ItemDetails note = new ItemDetails(ob.getObjectId(), ob.getString("title"), ob.getString("description"), ob.getString("category"), ob.getParseFile("photo"));
+						ItemDetails note = new ItemDetails(ob.getObjectId(), ob.getString("title"), ob.getString("description"), ob.getString("category"), ob.getParseFile("photo"), ob.getString("releaseDate"), ob.getString("author_artist"));
 						items.add(note);
 						System.out.println(ob.getString("title"));
 		        	}
@@ -145,6 +156,23 @@ public class FoundItemActivity extends ListActivity {
 	 
 	}
 	
+	
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager 
+              = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    
+    private void showNetToast(){
+		 Toast toast = Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG);
+		 View view = toast.getView();
+		 view.setBackgroundResource(R.color.toast_nointernet_color);
+		 TextView text = (TextView) view.findViewById(android.R.id.message);
+		 /*here you can do anything with text*/
+		 toast.show();
+		 //Toast.makeText(context,"No Internet Connection",1000).show();
+    }
 	
 	
 	

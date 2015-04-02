@@ -784,7 +784,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     
     
     Intent i = new Intent();
-    System.out.println(ocrResult.getText());
+    //System.out.println(ocrResult.getText());
     i.putExtra("ocr", ocrResult.getText());  // insert your extras here
     setResult(0, i);
     finish();

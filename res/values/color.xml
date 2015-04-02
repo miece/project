@@ -2,4 +2,7 @@
 <resources>
     <color name="actionbar_color">#bf360c</color>
     <color name="drawer_arrow_second_color">#303f9f</color>
+    <color name="toast_nointernet_color">#FF0000</color>
+    <color name="toast_text_color">#FFFFFF</color>
+    
 </resources>

@@ -13,24 +13,33 @@ public class ItemDetails {
     private String title;
     private String details;
     private String category;
+    private String author_artist;
+    private String releaseDate;
+
     private String image;
 
     private ParseFile file;
 	
-    ItemDetails(String theId, String theTitle, String theContent, String theCategory, ParseFile theImage) {
+    ItemDetails(String theId, String theTitle, String theContent, String theCategory, ParseFile theImage, String theAuthor_artist, String theReleaseDate) {
     	
         id = theId;
         title = theTitle;
         details = theContent;
         category = theCategory;
+
+        author_artist = theAuthor_artist;
+        releaseDate = theReleaseDate;
         file = theImage;
     }
-    ItemDetails(String theId, String theTitle, String theContent, String theCategory) {
+    ItemDetails(String theId, String theTitle, String theContent, String theCategory, String theAuthor_artist, String theReleaseDate) {
     	
         id = theId;
         title = theTitle;
         details = theContent;
         category = theCategory;
+
+        author_artist = theAuthor_artist;
+        releaseDate = theReleaseDate;
 
     }
     
@@ -72,6 +81,22 @@ public class ItemDetails {
         }
         public void setPhoto(ParseFile file) {
             this.file = file;
+        }
+        
+        public String getAuthor_Artist() {
+            return author_artist;
+        }
+        public void setAuthor_Artist(String theAuthor_artist) {
+            this.author_artist = theAuthor_artist;
+        }
+        
+
+        
+        public String getReleaseDate() {
+            return releaseDate;
+        }
+        public void setReleaseDate(String theReleaseDate) {
+            this.releaseDate = theReleaseDate;
         }
 
         

@@ -81,7 +81,7 @@ public class ListCategoryItemActivity extends ListActivity {
 					// and notify the adapter
 					items.clear();
 					for (ParseObject post : postList) {
-						ItemDetails note = new ItemDetails(post.getObjectId(), post.getString("title"), post.getString("description"), post.getString("category"), post.getParseFile("photo"));
+						ItemDetails note = new ItemDetails(post.getObjectId(), post.getString("title"), post.getString("description"), post.getString("category"), post.getParseFile("photo"), post.getString("author_artist"), post.getString("releaseDate"));
 						items.add(note);
 					}
 					((ArrayAdapter<ItemDetails>) getListAdapter()).notifyDataSetChanged();

@@ -83,8 +83,8 @@ public class ExportActivity extends Activity {
 	
 	public void deleteItem(){
 		final List<String> title_list = new ArrayList<String>();
-		final List<String> desc_list = new ArrayList<String>();
-		final List<String> category_list = new ArrayList<String>();
+		//final List<String> desc_list = new ArrayList<String>();
+		//final List<String> category_list = new ArrayList<String>();
 		final List<String> tester = new ArrayList<String>();
 		final List<String[]> database = new ArrayList<String[]>();
 		

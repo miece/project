@@ -71,7 +71,7 @@ public class SignUpActivity extends Activity {
  
                             if (e == null) {
                                 // Success!
-                                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                Intent intent = new Intent(SignUpActivity.this, BaseActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);

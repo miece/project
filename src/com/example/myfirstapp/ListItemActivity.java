@@ -2,17 +2,12 @@ package com.example.myfirstapp;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
-
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
-
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +28,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.parse.ParseQuery;
 import com.parse.ParseException;
 
@@ -45,26 +39,19 @@ public class ListItemActivity extends ListActivity {
 	private ItemDetails contextPos;
 	boolean deleted = false;
 	
-	
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.list_item);
         
-        
+        // if network not available show message
         if(!isNetworkAvailable()){
-        	
         	showNetToast();
         }
         
         
         registerForContextMenu(getListView());
-       // ParseUser currentUser = ParseUser.getCurrentUser();
-       // if (currentUser == null) {
-       //     loadLoginView();
-       // }
         
         /* create an adapter which manages the data model and adapts it to the individual rows in the list view.
          * Use the given adapter and override the object’s toString() method so that it gives the title of the item.
@@ -102,7 +89,6 @@ public class ListItemActivity extends ListActivity {
             Intent intent = new Intent(this, AddItemActivity.class);
             intent.putExtra("Uniqid","from_List_Activity_Menu"); 
             startActivity(intent);
-            //finish();
             break;
         }
         case R.id.action_settings: {
@@ -111,18 +97,9 @@ public class ListItemActivity extends ListActivity {
         }
         }
 
-     
         return super.onOptionsItemSelected(item);
     }
 
-        
-        /*
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    */
     
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -131,8 +108,6 @@ public class ListItemActivity extends ListActivity {
         long pos=getListAdapter().getItemId(((AdapterView.AdapterContextMenuInfo)menuInfo).position);
         ItemDetails theItems = items.get((int) pos);
         theItems = items.get((int) pos);
-        
-        System.out.println(pos);
     }
     
     public boolean onContextItemSelected(MenuItem item) {
@@ -140,7 +115,6 @@ public class ListItemActivity extends ListActivity {
     	ItemDetails theItems;
     	switch(item.getItemId()){
     	case R.id.delete:
-    		//System.out.println("DELETE item: " + info.position);
     		theItems = items.get(info.position);
     		String itemId = theItems.getId();
     		String itemName = theItems.getTitle();
@@ -166,45 +140,7 @@ public class ListItemActivity extends ListActivity {
               return super.onContextItemSelected(item);
         }
     
-    
-    // When called it will fetch data from Parse local datastore and assign it to the item List.
-    /*
-	private void refreshItemList() {
-
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Inventory");
-		query.whereEqualTo("author", ParseUser.getCurrentUser());
-		query.fromLocalDatastore();
-
-		setProgressBarIndeterminateVisibility(true);
-
-		query.findInBackground(new FindCallback<ParseObject>() {
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public void done(List<ParseObject> postList, ParseException e) {
-				setProgressBarIndeterminateVisibility(false);
-				if (e == null) {
-					// If there are results, update the list of posts
-					// and notify the adapter
-					items.clear();
-					for (ParseObject post : postList) {
-						ItemDetails note = new ItemDetails(post.getObjectId(), post.getString("title"), post.getString("description"), post.getString("category"));
-						items.add(note);
-					}
-					((ArrayAdapter<ItemDetails>) getListAdapter()).notifyDataSetChanged();
-				} else {
-					Log.d(getClass().getSimpleName(), "Error: " + e.getMessage());
-				}
-
-			}
-
-		});
-
-	}
-   */
-   
-   
-	private void refreshItemList() {
+		private void refreshItemList() {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Inventory");
 		query.whereEqualTo("author", ParseUser.getCurrentUser());
@@ -215,31 +151,25 @@ public class ListItemActivity extends ListActivity {
 
 			@SuppressWarnings("unchecked")
 			@Override
-			public void done(List<ParseObject> postList, ParseException e) {
+			public void done(List<ParseObject> itemList, ParseException e) {
 				setProgressBarIndeterminateVisibility(false);
 				if (e == null) {
-					// If there are results, update the list of posts
+					// If there are results, update the list of items
 					// and notify the adapter
 					items.clear();
-					for (ParseObject post : postList) {
-						ItemDetails note = new ItemDetails(post.getObjectId(), post.getString("title"), post.getString("description"), post.getString("category"), post.getParseFile("photo"), post.getString("author_artist"), post.getString("releaseDate"));
-						items.add(note);
+					for (ParseObject theItem : itemList) {
+						ItemDetails myitems = new ItemDetails(theItem.getObjectId(), theItem.getString("title"), theItem.getString("description"), theItem.getString("category"), theItem.getParseFile("photo"), theItem.getString("author_artist"), theItem.getString("releaseDate"));
+						items.add(myitems);
 					}
 					((ArrayAdapter<ItemDetails>) getListAdapter()).notifyDataSetChanged();
 				} else {
 					Log.d(getClass().getSimpleName(), "Error: " + e.getMessage());
 				}
-
 			}
-
 		});
-
 	}
 	
-	
-    
-    
-	
+	// if item is clicked on
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 	 
@@ -254,34 +184,11 @@ public class ListItemActivity extends ListActivity {
 	    intent.putExtra("itemImage", theItems.getPhoto().getUrl());
 	    intent.putExtra("itemAuthor_artist", theItems.getAuthor_Artist());
 	    intent.putExtra("itemReleaseDate", theItems.getReleaseDate());
-	    //System.out.println(theItems.getPhoto().getUrl());
+
 	    startActivity(intent);
-	    //finish();
-	 
 	}
 	
-	/*
-	protected void deleteItem(String itemId, final String itemName){
-		
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Inventory");
-		query.whereEqualTo("objectid", itemId);
-
-		query.getFirstInBackground(new GetCallback<ParseObject>() {
-		  public void done(ParseObject object, ParseException e) {
-		    if (object == null) {
-			      object.deleteInBackground();
-			      Toast.makeText(ListItemActivity.this, "You have deleted item: " + " " + itemName , Toast.LENGTH_LONG).show();
-			      //((ArrayAdapter<ItemDetails>) getListAdapter()).notifyDataSetChanged();
-			      
-		    } else {
-
-		    }
-		  }
-		});
-
-	}
-	*/
-	
+	// delete an item
 	public void deleteItem(String itemId, final String itemName){
 		
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Inventory");
@@ -299,63 +206,26 @@ public class ListItemActivity extends ListActivity {
 		            for(ParseObject message : postList)
 		            {
 		                 message.deleteEventually();
-		                 System.out.println("YES");
 		            }
 				} else {
 					Log.d(getClass().getSimpleName(), "Error: " + e.getMessage());
 				}
-
 			}
-
 		});
-		
-
-            
-
 	}
-		            
-		
-
-	
-	
-	
-	/*
-	
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-   super.onListItemClick(l, v, position, id);
-   Object o = this.getListAdapter().getItem(position);
-   String pen = o.toString();
-   Toast.makeText(this, "You have chosen the item: " + " " + pen, Toast.LENGTH_LONG).show();
-   }
-	*/
-
-	
-	/*
-	private void loadLoginView() {
-		Intent intent = new Intent(this, LoginActivity.class);
-	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-	    startActivity(intent);
-	}
-	*/
-	
+	// check is the network available
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager 
               = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-    
+    // error message if the network is not available
     private void showNetToast(){
 		 Toast toast = Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG);
 		 View view = toast.getView();
 		 view.setBackgroundResource(R.color.toast_nointernet_color);
 		 TextView text = (TextView) view.findViewById(android.R.id.message);
-		 /*here you can do anything with text*/
 		 toast.show();
-		 //Toast.makeText(context,"No Internet Connection",1000).show();
     }
-	
 }
-
-

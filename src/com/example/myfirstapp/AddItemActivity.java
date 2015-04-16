@@ -50,7 +50,7 @@ public class AddItemActivity extends BaseActivity  {
 	private ParseFile imageFile;
 	private ItemDetails item;
 	
-	// edittexts
+	// edittext
 	private EditText titleEditText;
 	private EditText detailsEditText;
 	private EditText categoryEditText;
@@ -78,8 +78,6 @@ public class AddItemActivity extends BaseActivity  {
 	private Button cancelButton;
 	private ImageButton photoButton;
 	private Button ocrButton;
-	
-	
 	
 	Context context = this;
 	

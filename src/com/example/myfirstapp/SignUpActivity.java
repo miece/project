@@ -3,7 +3,6 @@ package com.example.myfirstapp;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.parse.ParseException;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -17,12 +16,10 @@ import android.widget.EditText;
 
 public class SignUpActivity extends Activity {
 	
-	
 	protected EditText usernameEditText;
     protected EditText passwordEditText;
     protected EditText emailEditText;
     protected Button signUpButton;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +31,16 @@ public class SignUpActivity extends Activity {
 		setContentView(R.layout.activity_sign_up);
 		
 		usernameEditText = (EditText)findViewById(R.id.usernameField);
-		
         passwordEditText = (EditText)findViewById(R.id.passwordField);
         emailEditText = (EditText)findViewById(R.id.emailField);
+        
         signUpButton = (Button)findViewById(R.id.signupButton);
         
+        // signup button
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            	// set keyboard lowercase
             	usernameEditText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
@@ -51,6 +50,7 @@ public class SignUpActivity extends Activity {
                 password = password.trim();
                 email = email.trim();
  
+                // validation
                 if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
                     builder.setMessage(R.string.signup_error_message)
@@ -60,8 +60,10 @@ public class SignUpActivity extends Activity {
                     dialog.show();
                 }
                 else {
+                	// progress spinner on
                     setProgressBarIndeterminateVisibility(true);
- 
+                    
+                    // create new user with the supplied details
                     ParseUser newUser = new ParseUser();
                     newUser.setUsername(username);
                     newUser.setPassword(password);
@@ -69,6 +71,7 @@ public class SignUpActivity extends Activity {
                     newUser.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(ParseException e) {
+                            	// progress spinner off
                             setProgressBarIndeterminateVisibility(false);
  
                             if (e == null) {
@@ -79,6 +82,7 @@ public class SignUpActivity extends Activity {
                                 startActivity(intent);
                             }
                             else {
+                            	// fail msg
                                 AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
                                 builder.setMessage(e.getMessage())
                                     .setTitle(R.string.signup_error_title)

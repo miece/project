@@ -3,8 +3,6 @@ package com.example.myfirstapp;
 import java.util.ArrayList;
 import java.util.List;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -28,15 +26,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.parse.ParseQuery;
 import com.parse.ParseException;
-
 
 public class ListItemActivity extends ListActivity {
 	
 	// declare a class variable that will hold a list of items.
 	private List<ItemDetails> items;
-	private ItemDetails contextPos;
 	boolean deleted = false;
 	
     @Override
@@ -49,7 +44,6 @@ public class ListItemActivity extends ListActivity {
         if(!isNetworkAvailable()){
         	showNetToast();
         }
-        
         
         registerForContextMenu(getListView());
         
@@ -64,7 +58,6 @@ public class ListItemActivity extends ListActivity {
         refreshItemList();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -72,6 +65,7 @@ public class ListItemActivity extends ListActivity {
         return true;
     }
 
+    // action bar option click
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -84,7 +78,7 @@ public class ListItemActivity extends ListActivity {
         	refreshItemList();
             break;
         }
-     
+           // create new item
         case R.id.action_new: {
             Intent intent = new Intent(this, AddItemActivity.class);
             intent.putExtra("Uniqid","from_List_Activity_Menu"); 
@@ -96,11 +90,10 @@ public class ListItemActivity extends ListActivity {
             break;
         }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    
+    // long press to find which item
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
@@ -109,7 +102,7 @@ public class ListItemActivity extends ListActivity {
         ItemDetails theItems = items.get((int) pos);
         theItems = items.get((int) pos);
     }
-    
+    // long press item options - delete/refresh
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     	ItemDetails theItems;
@@ -126,7 +119,6 @@ public class ListItemActivity extends ListActivity {
     			refreshItemList();
     			deleted = false;
     		}
-    		
     		break;
     	case R.id.edit:
     		theItems = items.get(info.position);
@@ -136,10 +128,10 @@ public class ListItemActivity extends ListActivity {
     		refreshItemList();
     		break;
     	}
-
               return super.onContextItemSelected(item);
         }
     
+    	// refresh item list / show items
 		private void refreshItemList() {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Inventory");

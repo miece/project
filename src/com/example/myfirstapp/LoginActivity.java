@@ -2,10 +2,7 @@ package com.example.myfirstapp;
 
 import com.parse.LogInCallback;
 import com.parse.ParseUser;
-
-import com.parse.GetCallback;
 import com.parse.ParseException;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -34,13 +31,16 @@ public class LoginActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_login);
 		
+		// set up textviews
 		signUpTextView = (TextView)findViewById(R.id.signUpText);
 		resetPasswordTextView = (TextView)findViewById(R.id.forgottenPasswordText);
         usernameEditText = (EditText)findViewById(R.id.usernameField);
 
+        // text boxes
         passwordEditText = (EditText)findViewById(R.id.passwordField);
         loginButton = (Button)findViewById(R.id.loginButton);
         
+        // sign up text view click
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +49,7 @@ public class LoginActivity extends Activity {
             }
         });
         
+        // reset password text view click
         resetPasswordTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +58,7 @@ public class LoginActivity extends Activity {
             }
         });
 		
+         // login button
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +68,8 @@ public class LoginActivity extends Activity {
  
                 username = username.trim();
                 password = password.trim();
- 
+                
+                // validation
                 if (username.isEmpty() || password.isEmpty()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                     builder.setMessage(R.string.login_error_message)
@@ -77,7 +80,7 @@ public class LoginActivity extends Activity {
                 }
                 else {
                     setProgressBarIndeterminateVisibility(true);
- 
+                    // login
                     ParseUser.logInInBackground(username, password, new LogInCallback() {
                         @Override
                         public void done(ParseUser user, ParseException e) {

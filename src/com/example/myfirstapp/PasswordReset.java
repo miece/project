@@ -3,9 +3,7 @@ package com.example.myfirstapp;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class PasswordReset extends Activity {
-	
+	// variables
 	private EditText emailEditBox;
 	private Button resetButton;
 	private String email;
@@ -25,18 +23,17 @@ public class PasswordReset extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_password_reset);
 		
+		// set up boxes
 		emailEditBox = (EditText) findViewById(R.id.emailField);
-
 		resetButton = (Button)findViewById(R.id.resetPasswordButton);
     	
-		
+		// reset button click
 		resetButton.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
 	        	
-	        	
 	    		email = emailEditBox.getText().toString(); 
-	    		
+	    		// send the email
 	    		ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
 	    		    public void done(ParseException e) {
 	    		        if (e == null) {
@@ -50,8 +47,6 @@ public class PasswordReset extends Activity {
 	    		});
 	        }
 	    });
-		
-
 	}
 
 	@Override

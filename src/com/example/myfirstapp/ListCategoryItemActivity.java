@@ -2,13 +2,10 @@ package com.example.myfirstapp;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +16,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import com.parse.ParseException;
 
 public class ListCategoryItemActivity extends ListActivity {
@@ -33,10 +29,12 @@ public class ListCategoryItemActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.list_item);
+		
 		Intent intent = this.getIntent();
 		theCategory = intent.getStringExtra("theCategory");
 		
         items = new ArrayList<ItemDetails>();
+        // adapter for holding items
         ArrayAdapter<ItemDetails> adapter = new ArrayAdapter<ItemDetails>(this, R.layout.list_item_layout, items);
         setListAdapter(adapter);
      
@@ -62,9 +60,9 @@ public class ListCategoryItemActivity extends ListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	
+	// show the list of items
 	private void refreshItemList() {
-
+		// database query
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Inventory");
 		query.whereEqualTo("author", ParseUser.getCurrentUser());
 		query.whereEqualTo("category", theCategory);
@@ -77,7 +75,7 @@ public class ListCategoryItemActivity extends ListActivity {
 			public void done(List<ParseObject> postList, ParseException e) {
 				setProgressBarIndeterminateVisibility(false);
 				if (e == null) {
-					// If there are results, update the list of posts
+					// If there are results, update the list of items
 					// and notify the adapter
 					items.clear();
 					for (ParseObject post : postList) {
@@ -88,14 +86,11 @@ public class ListCategoryItemActivity extends ListActivity {
 				} else {
 					Log.d(getClass().getSimpleName(), "Error: " + e.getMessage());
 				}
-
 			}
-
 		});
-
 	}
 	
-	
+	// on item click open it with the details
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 	 
@@ -108,12 +103,7 @@ public class ListCategoryItemActivity extends ListActivity {
 	    intent.putExtra("itemContent", theItems.getContent());
 	    intent.putExtra("itemCategory", theItems.getCategory());
 	    intent.putExtra("itemImage", theItems.getPhoto().getUrl());
-	    //System.out.println(theItems.getPhoto().getUrl());
 	    startActivity(intent);
 	    finish();
-	 
 	}
-	
-	
-	
 }

@@ -1,21 +1,5 @@
 package com.example.myfirstapp;
 
-/*
-<ImageView
-android:id="@+id/imageView1"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:src="@drawable/invfull" />
-
-
-        <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:layout_below="@+id/imageView1"
-    android:text="@string/app_description"/>
-    */
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,11 +11,9 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,7 +21,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
 import jim.h.common.android.lib.zxing.config.ZXingLibConfig;
 import jim.h.common.android.lib.zxing.integrator.IntentIntegrator;
 import jim.h.common.android.lib.zxing.integrator.IntentResult;
@@ -70,7 +51,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.myfirstapp.amazonSigner.SignedRequestsHelper;
 import com.example.myfirstapp.camerabase.CaptureActivity;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;

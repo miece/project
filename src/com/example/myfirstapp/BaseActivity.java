@@ -98,6 +98,7 @@ public class BaseActivity extends Activity {
 	String theTitle = "";
 	String ocrText = "";
 	Boolean scan = false;
+	private Boolean exit = false;
     
 	org.jsoup.nodes.Document doc1;
 	
@@ -808,6 +809,8 @@ public boolean onCreateOptionsMenu(Menu menu) {
 		 toast.show();
 		 //Toast.makeText(context,"No Internet Connection",1000).show();
     }
+    
+
     
 }
 

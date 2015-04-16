@@ -37,6 +37,7 @@ public class LoginActivity extends Activity {
 		signUpTextView = (TextView)findViewById(R.id.signUpText);
 		resetPasswordTextView = (TextView)findViewById(R.id.forgottenPasswordText);
         usernameEditText = (EditText)findViewById(R.id.usernameField);
+
         passwordEditText = (EditText)findViewById(R.id.passwordField);
         loginButton = (Button)findViewById(R.id.loginButton);
         
@@ -59,6 +60,7 @@ public class LoginActivity extends Activity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            	usernameEditText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
  

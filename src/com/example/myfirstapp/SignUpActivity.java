@@ -34,6 +34,7 @@ public class SignUpActivity extends Activity {
 		setContentView(R.layout.activity_sign_up);
 		
 		usernameEditText = (EditText)findViewById(R.id.usernameField);
+		
         passwordEditText = (EditText)findViewById(R.id.passwordField);
         emailEditText = (EditText)findViewById(R.id.emailField);
         signUpButton = (Button)findViewById(R.id.signupButton);
@@ -41,6 +42,7 @@ public class SignUpActivity extends Activity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            	usernameEditText.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 String email = emailEditText.getText().toString();

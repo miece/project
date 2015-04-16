@@ -135,10 +135,10 @@ public final class R {
     public static final class id {
         public static final int LinearLayout02=0x7f09003b;
         public static final int LinearLayout03=0x7f090038;
-        public static final int action_logout=0x7f09005a;
-        public static final int action_new=0x7f090059;
-        public static final int action_refresh=0x7f090058;
-        public static final int action_settings=0x7f090057;
+        public static final int action_logout=0x7f090059;
+        public static final int action_new=0x7f090058;
+        public static final int action_refresh=0x7f090057;
+        public static final int action_settings=0x7f090056;
         public static final int author_artist=0x7f090035;
         public static final int author_artistTextView=0x7f090034;
         public static final int camera_button=0x7f090039;
@@ -152,11 +152,11 @@ public final class R {
         public static final int decode=0x7f090006;
         public static final int decode_failed=0x7f090007;
         public static final int decode_succeeded=0x7f090008;
-        public static final int delete=0x7f090056;
+        public static final int delete=0x7f090055;
         public static final int detailTextView=0x7f090030;
         public static final int done_button=0x7f09004f;
         public static final int drawer_layout=0x7f090024;
-        public static final int edit=0x7f090055;
+        public static final int edit=0x7f090054;
         public static final int emailField=0x7f090022;
         public static final int emailTextViewTitle=0x7f090021;
         public static final int export_button=0x7f09001d;
@@ -177,7 +177,6 @@ public final class R {
         public static final int loginButton=0x7f090015;
         public static final int mLlayoutBottomButtons=0x7f09002a;
         public static final int myFilter=0x7f09002b;
-        public static final int name=0x7f090051;
         public static final int navdrawer=0x7f090029;
         public static final int ocr_button=0x7f09003a;
         public static final int ocr_continuous_decode=0x7f090009;
@@ -221,11 +220,11 @@ public final class R {
         public static final int zxinglib_decode=0x7f090001;
         public static final int zxinglib_decode_failed=0x7f090002;
         public static final int zxinglib_decode_succeeded=0x7f090003;
-        public static final int zxinglib_preview_view=0x7f090052;
+        public static final int zxinglib_preview_view=0x7f090051;
         public static final int zxinglib_quit=0x7f090004;
         public static final int zxinglib_return_scan_result=0x7f090005;
-        public static final int zxinglib_status_view=0x7f090054;
-        public static final int zxinglib_viewfinder_view=0x7f090053;
+        public static final int zxinglib_status_view=0x7f090053;
+        public static final int zxinglib_viewfinder_view=0x7f090052;
     }
     public static final class layout {
         public static final int activity_camera=0x7f030000;

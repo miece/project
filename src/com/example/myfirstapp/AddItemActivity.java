@@ -152,7 +152,6 @@ public class AddItemActivity extends BaseActivity  {
 					String author = intent.getStringExtra("author");
 					String date = intent.getStringExtra("release");
 
-					//System.out.println(author);
 					
 					titleEditText.setText(title);
 				    detailsEditText.setText(descritpion);
@@ -221,39 +220,6 @@ public class AddItemActivity extends BaseActivity  {
 	        
         }
 	    
-	    
-	    
-	    
-	    
-	    
-	    /*
-	    if (intent.getExtras() != null) {
-	        item = new ItemDetails(intent.getStringExtra("itemId"), intent.getStringExtra("itemTitle"), intent.getStringExtra("itemContent"), intent.getStringExtra("itemCategory"));
-	 
-	        titleEditText.setText(item.getTitle());
-	        detailsEditText.setText(item.getContent());
-	        categoryEditText.setText(item.getCategory());
-	        
-	    }
-
-		*/
-		
-		/*
-		//txtScanResult = (TextView) findViewById(R.id.scan_result);
-		//name = (EditText)findViewById(R.id.itemTitle);
-		
-		Bundle extras = getIntent().getExtras();
-		if (extras != null) {
-			String title = extras.getString("title");
-		    //String value = extras.getString("barcode");
-		    //txtScanResult.setText(title);
-			titleEditText.setText(title);
-		    
-		}
-		*/
-	    
-	    
-	    
 		cancelButton = (Button)findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(new View.OnClickListener() {
 	        @Override
@@ -310,40 +276,19 @@ public class AddItemActivity extends BaseActivity  {
                 if(evalue=="1")
                 {
                 	Intent intent = new Intent(context, com.example.myfirstapp.camerabase.CaptureActivity.class);
-            		//startActivity(intent);
+
                 	startActivityForResult(intent, 1);
-            		System.out.println(evalue);
-                	/*
-                    Bundle extras = getIntent().getExtras();
-                    if (extras != null) {
-                        String ocrText = extras.getString("ocr");
-                        titleEditText.setText(ocrText);
-                    }
-                    */
-                	//titleEditText.setText(ocrText);
-                    //e1.setText("yes");
+
                 }
                 else if(evalue=="2")
                 {
-                	System.out.println(evalue);
                 	Intent intent = new Intent(context, com.example.myfirstapp.camerabase.CaptureActivity.class);
-            		//startActivity(intent);
+
                 	startActivityForResult(intent, 2);
-                    //e2.setText("yes");
                 }
                 else{
                 	Toast.makeText(getApplicationContext(), "Please select a text box first then click the ocr button", Toast.LENGTH_SHORT).show();
                 }
-                System.out.println(evalue);
-                /*
-                if(evalue=="3")
-                {
-                    //e2.setText("yes");
-                }
-                else{
-                	Toast.makeText(getApplicationContext(), "Please select a text box first then click the ocr button", Toast.LENGTH_SHORT).show();
-                }
-                */
             }
         });
 
@@ -525,8 +470,6 @@ public class AddItemActivity extends BaseActivity  {
                         if (e == null) {
                             // Saved successfully.
                             Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-                        	//Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
-                        	//startActivity(intent);
                         	finish();
                         } else {
                             // The save failed.
@@ -559,7 +502,6 @@ public class AddItemActivity extends BaseActivity  {
                         post.put("releaseDate", itemReleaseDate);
                         post.put("barcode", "0");
                         if(notPhoto){
-                        	//System.out.println("Here");
         			        ByteArrayOutputStream stream = new ByteArrayOutputStream();
         			        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
         			        byteArray = stream.toByteArray();
@@ -603,48 +545,6 @@ public class AddItemActivity extends BaseActivity  {
             dialog.show();
         }
 
-        /*
-        else if(imageFile == null){
-        	System.out.println(imageFile);
-        	System.out.println("title: " +itemTitle);
-            AlertDialog.Builder builder = new AlertDialog.Builder(AddItemActivity.this);
-            builder.setMessage(R.string.edit_error_message)
-                .setTitle(R.string.edit_error_title)
-                .setPositiveButton(android.R.string.ok, null);
-            AlertDialog dialog = builder.create();
-            dialog.show();
-            Toast.makeText(this, "You have chosen the item: " , Toast.LENGTH_LONG).show();
-        }
-        */
-        /*
-        if(imageFile == null){
-        	bp = BitmapFactory.decodeResource(getResources(), R.drawable.temp);
-	        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-	        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-	        byteArray = stream.toByteArray();
-	        imageFile = new ParseFile("photo.jpg",byteArray);
-	        itemImage = "blank";
-        }
-	*/
-
-        /*
-        if(itemTitle.isEmpty()){
-        	String alert1 = "Please enter";
-        	String alert2 = "Title";
-        	String alert3 = "Category";
-        	String alert4 = "Image";
-        	
-            AlertDialog.Builder builder = new AlertDialog.Builder(AddItemActivity.this);
-            builder.setMessage("Please enter:")
-            
-                .setTitle(R.string.edit_error_title)
-                .setPositiveButton(android.R.string.ok, null);
-            builder.setMessage(alert1 +"\n"+ alert2 +"\n"+ alert3 +"\n" + alert4);  
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-        */
         
     }
 	
@@ -654,16 +554,7 @@ public class AddItemActivity extends BaseActivity  {
 	      
 	      
 	}
-	/*
-	   @Override
-	   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	      // TODO Auto-generated method stub
-	      super.onActivityResult(requestCode, resultCode, data);
-	      notPhoto = true;
-	      bp = (Bitmap) data.getExtras().get("data");
-	      imgView.setImageBitmap(bp);
-	   }
-	   */
+
 		protected void onActivityResult(int requestCode, int resultCode, Intent data){
 		    switch(requestCode){
 		        case 0: // Do your stuff here...

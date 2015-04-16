@@ -15,18 +15,16 @@ public class ItemDetails {
     private String category;
     private String author_artist;
     private String releaseDate;
-
     private String image;
-
     private ParseFile file;
 	
+    // constructors
     ItemDetails(String theId, String theTitle, String theContent, String theCategory, ParseFile theImage, String theAuthor_artist, String theReleaseDate) {
     	
         id = theId;
         title = theTitle;
         details = theContent;
         category = theCategory;
-
         author_artist = theAuthor_artist;
         releaseDate = theReleaseDate;
         file = theImage;
@@ -37,13 +35,10 @@ public class ItemDetails {
         title = theTitle;
         details = theContent;
         category = theCategory;
-
         author_artist = theAuthor_artist;
         releaseDate = theReleaseDate;
-
     }
     
-
         public String getId() {
             return id;
         }
@@ -62,7 +57,6 @@ public class ItemDetails {
         public void setContent(String content) {
             this.details = content;
         }
-        
         public String getCategory() {
             return category;
         }
@@ -74,35 +68,27 @@ public class ItemDetails {
         }
         public void setImage(String image) {
             this.image = image;
-        }
-                
+        }    
         public ParseFile getPhoto() {
         	return file;
         }
         public void setPhoto(ParseFile file) {
             this.file = file;
         }
-        
         public String getAuthor_Artist() {
             return author_artist;
         }
         public void setAuthor_Artist(String theAuthor_artist) {
             this.author_artist = theAuthor_artist;
         }
-        
-
-        
         public String getReleaseDate() {
             return releaseDate;
         }
         public void setReleaseDate(String theReleaseDate) {
             this.releaseDate = theReleaseDate;
         }
-
-        
         @Override
         public String toString() {
             return this.getTitle();
         }
-     
     }

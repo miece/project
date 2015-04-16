@@ -2,14 +2,11 @@ package com.example.myfirstapp;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.ParseException;
-
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -31,19 +28,17 @@ public class FoundItemActivity extends ListActivity {
 	private ArrayList<String> titleList;
 	private String title;
 	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_item);
 		
-		
+		// check if network available
         if(!isNetworkAvailable()){
         	
         	showNetToast();
         }
-		
-		
+		// array list of item details
 		items = new ArrayList<ItemDetails>();
 		//Get the bundle
 		Bundle bundle = getIntent().getExtras();
@@ -52,32 +47,16 @@ public class FoundItemActivity extends ListActivity {
 		if(bundle != null){
 			title = bundle.getString("term");
 			title = title.toLowerCase();
-			
-			
 		}
-		System.out.println(title);
+		
+		// search the item
 		searchItem(title);
 
-		
-		
-		/*
-		Bundle extras = getIntent().getExtras();
-		if (extras != null) {
-			title = extras.getString("title");
-		    //String value = extras.getString("barcode");
-		    //txtScanResult.setText(title);
-			//titleEditText.setText(title);
-			
-		    
-		}
-		*/
-		
 		titleList = new ArrayList<String>();
 		
+		// array for list view
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item_layout, titleList);
 		setListAdapter(adapter);
-		//searchItem(title);
-		
 	}
 
 	@Override
@@ -101,9 +80,10 @@ public class FoundItemActivity extends ListActivity {
 	
 	
 	
-	
+	// search for the item based on the title
 	private void searchItem(String theTitle) {
 
+		// connect to database
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Inventory");
 		query.whereEqualTo("author", ParseUser.getCurrentUser());
 		query.whereContains("title", title);
@@ -117,27 +97,22 @@ public class FoundItemActivity extends ListActivity {
 			public void done(List<ParseObject> itemList, ParseException e) {
 				setProgressBarIndeterminateVisibility(false);
 				if (e == null) {
-					// If there are results, update the list of posts
+					// If there are results, update the list of items
 					// and notify the adapter
 		        	for (ParseObject ob : itemList) {
 		        		titleList.add(ob.getString("title"));
 						ItemDetails note = new ItemDetails(ob.getObjectId(), ob.getString("title"), ob.getString("description"), ob.getString("category"), ob.getParseFile("photo"), ob.getString("releaseDate"), ob.getString("author_artist"));
 						items.add(note);
-						System.out.println(ob.getString("title"));
 		        	}
 					((ArrayAdapter<ItemDetails>) getListAdapter()).notifyDataSetChanged();
 				} else {
 					Log.d(getClass().getSimpleName(), "Error: " + e.getMessage());
 				}
-
 			}
-
 		});
-
 	}
 	
-	
-	
+	// on item click
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 	 
@@ -150,13 +125,11 @@ public class FoundItemActivity extends ListActivity {
 	    intent.putExtra("itemContent", theItems.getContent());
 	    intent.putExtra("itemCategory", theItems.getCategory());
 	    intent.putExtra("itemImage", theItems.getPhoto().getUrl());
-	    //System.out.println(theItems.getPhoto().getUrl());
 	    startActivity(intent);
 	    finish();
-	 
 	}
 	
-	
+	// check for network
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager 
               = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -171,7 +144,7 @@ public class FoundItemActivity extends ListActivity {
 		 TextView text = (TextView) view.findViewById(android.R.id.message);
 		 /*here you can do anything with text*/
 		 toast.show();
-		 //Toast.makeText(context,"No Internet Connection",1000).show();
+
     }
 	
 	

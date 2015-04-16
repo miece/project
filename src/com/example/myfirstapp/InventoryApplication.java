@@ -1,8 +1,6 @@
 package com.example.myfirstapp;
 
 import com.parse.Parse;
-import com.parse.ParseObject;
-
 import android.app.Application;
 
 public class InventoryApplication extends Application {
@@ -11,10 +9,7 @@ public class InventoryApplication extends Application {
 	public void onCreate() {
 	    super.onCreate();
 	 
-	    // enable the Local Datastore
-	 	Parse.enableLocalDatastore(getApplicationContext());
+	    // allow connection to cloud
 	    Parse.initialize(this, "saIQWlbzHC5G90hwMY0FdjnuN2dQInrRGMwuCMjy", "bN0TkD4r0ELzZaWX9zlNqoYJnnWUDyK2qSsOTDQT");
-
 	}
-
 }

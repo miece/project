@@ -32,21 +32,16 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,22 +50,18 @@ import com.example.myfirstapp.amazonSigner.SignedRequestsHelper;
 import com.example.myfirstapp.camerabase.CaptureActivity;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
-
 import com.parse.ParseUser;
-
 
 public class BaseActivity extends Activity {
 
     protected DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private CharSequence mDrawerTitle;
     private LinearLayout mLinear;
     
     FrameLayout frameLayout;
     
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
-    private boolean drawerArrowColor;
 
     Context context = this;
 	boolean gotCode = false;
@@ -78,57 +69,46 @@ public class BaseActivity extends Activity {
 	String theTitle = "";
 	String ocrText = "";
 	Boolean scan = false;
-	private Boolean exit = false;
     
 	org.jsoup.nodes.Document doc1;
 	
     private Handler        handler = new Handler();
-    private TextView       txtScanResult;
     private ZXingLibConfig zxingLibConfig;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	 mDrawerTitle = getTitle();
     	 
-    	 
-    	 System.out.println(isNetworkAvailable());
-    	 if(!isNetworkAvailable()){
+    	 // is network available
+    	if(!isNetworkAvailable()){
     		 showNetToast();
-
-    		 
-    	 }
-    	 
-    	 
-    	 
+    	}
+    	
+    	
     	if (android.os.Build.VERSION.SDK_INT > 9) {
     	    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
     	    StrictMode.setThreadPolicy(policy);
     	}
     	
-
-    	    
-    	
-    	
+    	// check for user
     	ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser == null) {
             loadLoginView();
         }
         
+        // barcode scanner obj
         zxingLibConfig = new ZXingLibConfig();
         zxingLibConfig.useFrontLight = true;
     	
-    	
-        super.onCreate(savedInstanceState);
+    	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeButtonEnabled(true);
 
-        LayoutInflater inflater = getLayoutInflater();
+        // material drawer setup
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.navdrawer);
         mLinear = (LinearLayout) findViewById(R.id.header);
-
 
         drawerArrow = new DrawerArrowDrawable(this) {
             @Override
@@ -153,7 +133,7 @@ public class BaseActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-
+        // drawer menu items
         String[] values = new String[]{
             "Inventory",
             "Scan Barcode",
@@ -163,6 +143,7 @@ public class BaseActivity extends Activity {
             "Export",
             "Github"
         };
+        // set drawer list
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
             android.R.layout.simple_list_item_1, android.R.id.text1, values);
         mDrawerList.setAdapter(adapter);
@@ -199,14 +180,14 @@ public class BaseActivity extends Activity {
                     	
                         break;
                 }
-
             }
         });
     }
     
+    //  get the xml from amazon
 private String amazonReturnDetails(String barcode) throws InvalidKeyException, NoSuchAlgorithmException, ParserConfigurationException, SAXException, IOException{
 		
-		
+		// create amazon request obj
 		SignedRequestsHelper hq = new SignedRequestsHelper();
 		
 		Map<String, String> map = new HashMap<String, String>();
@@ -219,17 +200,15 @@ private String amazonReturnDetails(String barcode) throws InvalidKeyException, N
 		map.put("Service", "AWSECommerceService");
 		map.put("Version", "2011-08-01");
 		
-		
+		// pass map to helper obj to get the signed url
 		String signedUrl = hq.sign(map);
-		
-		
 		
 		URL url = null;
 		String inputLine;
 
 		String theXML = "";
 		
-		
+		// get the xml from the signed url and reutrn it
 		try {
 		    url = new URL(signedUrl);
 		} catch (MalformedURLException e) {
@@ -242,7 +221,6 @@ private String amazonReturnDetails(String barcode) throws InvalidKeyException, N
 		    in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		    while ((inputLine = in.readLine()) != null) {
 		    	theXML = inputLine;
-		        //System.out.println(inputLine);
 		    }
 		    in.close();
 
@@ -250,12 +228,10 @@ private String amazonReturnDetails(String barcode) throws InvalidKeyException, N
 		    e.printStackTrace();
 		}
 		
-
 		return theXML;
-				//theTest(theXML);
-		
 	}
 
+	// parse the xml to get the data
 private static Map<String,String> parseXML(String xml) throws ParserConfigurationException, SAXException, IOException{
 	
 	Map<String,String> xmlValues = new HashMap<String,String>();
@@ -270,17 +246,12 @@ private static Map<String,String> parseXML(String xml) throws ParserConfiguratio
     // normalize text representation
     doc.getDocumentElement ().normalize ();
 
-
-
     NodeList listOfPersons = doc.getElementsByTagName("ItemAttributes");
-
 
     for(int s=0; s<listOfPersons.getLength() ; s++){
 
-
         Node firstPersonNode = listOfPersons.item(s);
         if(firstPersonNode.getNodeType() == Node.ELEMENT_NODE && isFirst){
-
 
             Element firstPersonElement = (Element)firstPersonNode;
 
@@ -291,14 +262,11 @@ private static Map<String,String> parseXML(String xml) throws ParserConfiguratio
 
                 NodeList ProductGroupText = ProductGroupElement.getChildNodes();
                 xmlValues.put("ProductGroup", ((Node)ProductGroupText.item(0)).getNodeValue().trim());
-            	
             }
             else
             {
             	xmlValues.put("ProductGroup", "");
             }
-            
-            
             
             //TITLE
             NodeList lastNameList = firstPersonElement.getElementsByTagName("Title");
@@ -314,13 +282,11 @@ private static Map<String,String> parseXML(String xml) throws ParserConfiguratio
             	xmlValues.put("Title", "");
             }
 
-            
-
             //MANUFACTURER
             NodeList firstNameList = firstPersonElement.getElementsByTagName("Manufacturer");
             if(firstNameList.getLength() == 1){
             	
-            	                Element firstNameElement = (Element)firstNameList.item(0);
+            Element firstNameElement = (Element)firstNameList.item(0);
 
             NodeList textFNList = firstNameElement.getChildNodes();
             		xmlValues.put("Manufacturer", ((Node)textFNList.item(0)).getNodeValue().trim());
@@ -337,12 +303,10 @@ private static Map<String,String> parseXML(String xml) throws ParserConfiguratio
 
                 NodeList authorText = authorNameElement.getChildNodes();
                 xmlValues.put("Author", ((Node)authorText.item(0)).getNodeValue().trim());
-            	
             }
             else
             {
             	xmlValues.put("Author", "");
-            	
             }
             
             // ARTIST
@@ -351,9 +315,7 @@ private static Map<String,String> parseXML(String xml) throws ParserConfiguratio
                 Element artistNameElement = (Element)artistNodeElement.item(0);
 
                 NodeList artistText = artistNameElement.getChildNodes();
-
                 xmlValues.put("Artist", ((Node)artistText.item(0)).getNodeValue().trim());
-            	
             }
             else
             {
@@ -366,9 +328,7 @@ private static Map<String,String> parseXML(String xml) throws ParserConfiguratio
                 Element releaseElement = (Element)releaseNodeElement.item(0);
 
                 NodeList releaseText = releaseElement.getChildNodes();
-
-                xmlValues.put("Release", ((Node)releaseText.item(0)).getNodeValue().trim());
-            	
+                xmlValues.put("Release", ((Node)releaseText.item(0)).getNodeValue().trim());       	
             }
             else
             {
@@ -381,33 +341,25 @@ private static Map<String,String> parseXML(String xml) throws ParserConfiguratio
                 Element publishElement = (Element)publishNodeElement.item(0);
 
                 NodeList publishText = publishElement.getChildNodes();
-
                 xmlValues.put("Publish", ((Node)publishText.item(0)).getNodeValue().trim());
-            	
             }
             else
             {
             	xmlValues.put("Publish", "");
             }
-            
             isFirst = false;
 
         }//end of if clause
-        
-
     }//end of for loop with s var
     
-isFirst = true;
+    isFirst = true;
     
     NodeList listofDesc = doc.getElementsByTagName("EditorialReviews");
-
-
+    
     for(int s=0; s<listofDesc.getLength() ; s++){
-
 
         Node firstPersonNode = listofDesc.item(s);
         if(firstPersonNode.getNodeType() == Node.ELEMENT_NODE && isFirst){
-
 
             Element firstPersonElement = (Element)firstPersonNode;
 
@@ -417,12 +369,9 @@ isFirst = true;
                 Element firstNameElement = (Element)firstNameList.item(0);
 
                 NodeList textFNList = firstNameElement.getChildNodes();
-
                 xmlValues.put("Content", ((Node)textFNList.item(0)).getNodeValue().trim());
-            
+
             isFirst = false;
-            
-            
         }
     }
     
@@ -430,13 +379,10 @@ isFirst = true;
     
     NodeList offerSummary = doc.getElementsByTagName("OfferSummary");
 
-
     for(int s=0; s<offerSummary.getLength() ; s++){
-
 
         Node firstPersonNode = offerSummary.item(s);
         if(firstPersonNode.getNodeType() == Node.ELEMENT_NODE && isFirst){
-
 
             Element firstPersonElement = (Element)firstPersonNode;
 
@@ -446,12 +392,9 @@ isFirst = true;
                 Element firstNameElement = (Element)firstNameList.item(0);
 
                 NodeList textFNList = firstNameElement.getChildNodes();
-
                 xmlValues.put("Price", ((Node)textFNList.item(0)).getNodeValue().trim());
             
             isFirst = false;
-            
-            
         }
     }
     
@@ -459,13 +402,10 @@ isFirst = true;
     
     NodeList mediumImage = doc.getElementsByTagName("LargeImage");
 
-
     for(int s=0; s<mediumImage.getLength() ; s++){
-
 
         Node medImageNode = mediumImage.item(s);
         if(medImageNode.getNodeType() == Node.ELEMENT_NODE && isFirst){
-
 
             Element medElement = (Element)medImageNode;
 
@@ -475,48 +415,36 @@ isFirst = true;
                 Element firstNameElement = (Element)firstNameList.item(0);
 
                 NodeList textFNList = firstNameElement.getChildNodes();
-                
                 xmlValues.put("Image", ((Node)textFNList.item(0)).getNodeValue().trim());
             
             isFirst = false;
-            
-            
         }
     }
-    
+    // return the xml value map
     return xmlValues;
-
 }
 
 
 @Override
+// get result from returned activity
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	// parse init
-	
-	
+
+	// first barcode scanner activity
 	final Context context = this;
     super.onActivityResult(requestCode, resultCode, data);
     switch (requestCode) {
         case IntentIntegrator.REQUEST_CODE: 
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode,
                     resultCode, data);
-            
-            
-            /*
-            if (scanResult == null) {
-                return;
-            }
-            */
+
             final String result = scanResult.getContents();
             
             if (result != null) {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        //txtScanResult.setText(result);
-                        String value = "";
+                    	
                         String test = "";
-                        
                         String item = "";
                         String title = "";
                         String manufacturer = "";
@@ -528,13 +456,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         String publish = "";
                         String release = "";
                         try {
-                        	// scrape html to get result of title
-
-                        	//txtScanResult.setText(value);
+                        	// get the xml data from the map
                         	test = amazonReturnDetails(result);
                         	
                     		item = parseXML(test).get("ProductGroup");
-                    		//System.out.println("itesm: " + item);
                     		title = parseXML(test).get("Title");
                     		manufacturer =  parseXML(test).get("Manufacturer");
                     		artist =  parseXML(test).get("Artist");
@@ -547,31 +472,14 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     		
                     		doc1 = Jsoup.parse(description);
                     		description = doc1.text();
-                    		//System.out.println(item);
-                    		
-                        	
-							//Log.d("---------", getBlogStats());
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 							System.out.println("ERROR");
 						}
                         
-
                         Intent intent = new Intent(context, AddItemActivity.class);
-                        
-                        /****
-                        Bundle extras = new Bundle();
-                        //extras.putString("barcode", result);
 
-                        extras.putString("title", value);
-                        // parse create object & create field called barcode and title
-
-                        	//intent.putExtra("barcode",result);
-                        intent.putExtras(extras);
-                        ****/
-                        
-                        //System.out.println(test);
                         intent.putExtra("Uniqid","from_Main"); 
                         intent.putExtra("title", title);
                         intent.putExtra("description", description);
@@ -579,16 +487,14 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         intent.putExtra("price", price);
                         intent.putExtra("image", image);
                         intent.putExtra("manufacturer", manufacturer);
-                       
-                        
-                        
+
+                        // check what type of item, add more fields if necessary
                         if(item != null){
 	                        if(item.equals("Book") || item.equals("eBooks")){
 	                        	
 	                        	intent.putExtra("author", author);
 	                        	intent.putExtra("release", publish);
 	                        }
-
 	                        if(item.equals("Music")){
 	                        	intent.putExtra("author", artist);
 	                        	intent.putExtra("release", release);
@@ -600,38 +506,23 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         else{
                         	intent.putExtra("notFound", "No item found. Please enter it manually");
                         }
-
-                        
-                        
-
-                        
                         startActivity(intent); 
-                        //finish();
-
                     }
                 });
             }
             break;
+            // OCR scanner
         case 11: 
         	if(data != null){
+        	// replace letters in the text
             ocrText = data.getStringExtra("ocr");
-            //System.out.println("OCR" + ocrText);
             ocrText = ocrText.replaceAll("[\\s\\-()]", "");
-
-            //ocrText = ocrText.replaceAll("ISBN", "");
-            //Log.d("dir", ocrText);
-            
-        	//}
-        	
-        	
-            
         	
             if (ocrText != null) {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        //txtScanResult.setText(result);
-                        String value = "";
+                    	
                         String test = "";
                         
                         String item = "";
@@ -644,12 +535,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         String image = "";
                         String publish = "";
                         String release = "";
-                        //System.out.println(ocrText);
                         try {
-                        	// scrape html to get result of title
+                        	// get the data from the xml
                         	ocrText = ocrText.replaceAll("[\\s\\-()]", "");
-                        	System.out.println(ocrText);
-                        	//txtScanResult.setText(value);
+
                         	test = amazonReturnDetails(ocrText);
                         	System.out.println(test);
                     		item = parseXML(test).get("ProductGroup");
@@ -665,19 +554,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     		
                     		doc1 = Jsoup.parse(description);
                     		description = doc1.text();
-                        	System.out.println(release);
-                    		
-                        	
-							//Log.d("---------", getBlogStats());
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-
+                        // add the data to the intent
                         Intent intent = new Intent(context, AddItemActivity.class);
 
-                        
-                        
                         intent.putExtra("Uniqid","from_Main"); 
                         intent.putExtra("title", title);
                         intent.putExtra("description", description);
@@ -687,7 +569,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         intent.putExtra("manufacturer", manufacturer);
                         intent.putExtra("publish", publish);
                         
-                        //System.out.println(test);
+                        // check for item type and add other details if needed
                         if(item != null){
                             if(item.equals("Book") || item.equals("eBooks")){
                             	intent.putExtra("author", author);
@@ -705,30 +587,18 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                         {
                         	intent.putExtra("notFound", "No item found for isbn: " + ocrText + ". Please check isbn number or enter item manually");
                         }
-
-                        
-
-
+                        // start the activity
                         startActivity(intent); 
-
-                    
-
-                        
-
                     }
-                
                 });
             }
         	}
-
-        	
-            
-
             break;
         default:
     }
 }
 
+// load the login view if logged out
 private void loadLoginView() {
 	Intent intent = new Intent(this, LoginActivity.class);
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -752,7 +622,6 @@ public boolean onCreateOptionsMenu(Menu menu) {
                 mDrawerLayout.openDrawer(mLinear);
             }
         }
-        
         if (item.getItemId() == R.id.action_logout) {
         	ParseUser.logOut();
             loadLoginView();
@@ -772,7 +641,7 @@ public boolean onCreateOptionsMenu(Menu menu) {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
     
-    
+    // check if network available
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager 
               = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -780,6 +649,7 @@ public boolean onCreateOptionsMenu(Menu menu) {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
     
+    // show network error message
     private void showNetToast(){
 		 Toast toast = Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG);
 		 View view = toast.getView();

@@ -390,7 +390,7 @@ public class AddItemActivity extends BaseActivity  {
                         post.put("category", itemCategory);
                         post.put("author_artist", itemAuthor_artist);
                         post.put("releaseDate", itemReleaseDate);
-                        //post.put("barcode", "0");
+                        //post.put("barcode", "0");	
                         if(notPhoto){
         			        ByteArrayOutputStream stream = new ByteArrayOutputStream();
         			        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -431,7 +431,7 @@ public class AddItemActivity extends BaseActivity  {
                 .setTitle(R.string.edit_error_title)
                 .setPositiveButton(android.R.string.ok, null);
             AlertDialog dialog = builder.create();
-            dialog.show();
+            dialog.show(this);
         }
     }
 	

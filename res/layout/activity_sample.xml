@@ -12,7 +12,7 @@ android:layout_height="fill_parent"
 android:id="@+id/linearLayoutid" 
 android:minWidth="25px"
 android:minHeight="25px"
-android:background="@drawable/inv" />
+android:background="@drawable/invdiff" />
 
        <!-- android:background="@drawable/inv"  -->
    <FrameLayout

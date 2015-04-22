@@ -116,13 +116,33 @@ public class ListItemActivity extends ListActivity {
     		Toast.makeText(ListItemActivity.this, "You have deleted item: " + " " + itemName , Toast.LENGTH_LONG).show();
     		deleted = true;
     		if (deleted = true){
-    			refreshItemList();
+    			//refreshItemList();
+            	Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
+            	startActivity(intent);
+    			finish();
+
     			deleted = false;
     		}
+    		//refreshItemList();
     		break;
     	case R.id.edit:
-    		theItems = items.get(info.position);
-    		System.out.println("Edit item: " + info.position);
+    		//theItems = items.get(info.position);
+
+    		ItemDetails theItems1 = items.get(info.position);
+
+    	    Intent intent = new Intent(this, AddItemActivity.class);
+    	    intent.putExtra("Uniqid","from_List_Activity"); 
+    	    intent.putExtra("itemId", theItems1.getId());
+    	    intent.putExtra("itemTitle", theItems1.getTitle());
+    	    intent.putExtra("itemContent", theItems1.getContent());
+    	    intent.putExtra("itemCategory", theItems1.getCategory());
+    	    intent.putExtra("itemImage", theItems1.getPhoto().getUrl());
+    	    intent.putExtra("itemAuthor_artist", theItems1.getAuthor_Artist());
+    	    intent.putExtra("itemReleaseDate", theItems1.getReleaseDate());
+
+    	    startActivity(intent);
+    		
+    		
     		break;
     	default:
     		refreshItemList();

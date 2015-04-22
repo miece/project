@@ -27,6 +27,7 @@ import jim.h.common.android.lib.zxing.integrator.IntentResult;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -141,7 +142,7 @@ public class BaseActivity extends Activity {
             "Categories",
             "Search",
             "Export",
-            "Github"
+            "Help"
         };
         // set drawer list
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -177,7 +178,8 @@ public class BaseActivity extends Activity {
                         startActivity(intent5);   
                         break;
                     case 6:
-                    	
+        			    Intent intent7 = new Intent(context, HelpActivity.class);
+                        startActivity(intent7);   
                         break;
                 }
             }

@@ -72,6 +72,8 @@ public class AddItemActivity extends BaseActivity  {
 
 	Context context = this;
 	
+	ListItemActivity li = new ListItemActivity();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// progress spinner
@@ -298,6 +300,17 @@ public class AddItemActivity extends BaseActivity  {
                 itemAuthor_artist = itemAuthor_artist.toLowerCase();
                 itemReleaseDate = itemReleaseDate.toLowerCase();
                 
+                if(itemDetails == ""){
+                	itemDetails = "n/a";
+                } 
+                if(itemAuthor_artist == ""){
+                	itemAuthor_artist = "n/a";
+                }
+                if(itemReleaseDate == ""){
+                	itemReleaseDate = "n/a";
+                }
+                
+                
                 // save item details
                 post.put("title", itemTitle);
                 post.put("description", itemDetails);
@@ -336,7 +349,10 @@ public class AddItemActivity extends BaseActivity  {
                         if (e == null) {
                             // Saved successfully.
                             Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                        	Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
+                        	startActivity(intent);
                         	finish();
+                        	
                         } else {
                             // The save failed.
                             Toast.makeText(getApplicationContext(), "Failed to Save", Toast.LENGTH_SHORT).show();
@@ -385,7 +401,7 @@ public class AddItemActivity extends BaseActivity  {
                                     // Saved successfully.
                                     Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
                                 	Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
-                                	//startActivity(intent);
+                                	startActivity(intent);
                                 	finish();
                                 } else {
                                     // The save failed.

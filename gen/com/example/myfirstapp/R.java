@@ -123,14 +123,15 @@ public final class R {
         public static final int ic_launcher=0x7f020009;
         public static final int img_view_border=0x7f02000a;
         public static final int inv=0x7f02000b;
-        public static final int logo=0x7f02000c;
-        public static final int mat2=0x7f02000d;
-        public static final int no_image=0x7f02000e;
-        public static final int shutter=0x7f02000f;
-        public static final int shutter_button=0x7f020010;
-        public static final int shutter_pressed=0x7f020011;
-        public static final int temp=0x7f020012;
-        public static final int zxinglib_icon=0x7f020013;
+        public static final int invdiff=0x7f02000c;
+        public static final int logo=0x7f02000d;
+        public static final int mat2=0x7f02000e;
+        public static final int no_image=0x7f02000f;
+        public static final int shutter=0x7f020010;
+        public static final int shutter_button=0x7f020011;
+        public static final int shutter_pressed=0x7f020012;
+        public static final int temp=0x7f020013;
+        public static final int zxinglib_icon=0x7f020014;
     }
     public static final class id {
         public static final int LinearLayout02=0x7f09003b;
@@ -230,44 +231,47 @@ public final class R {
         public static final int activity_camera=0x7f030000;
         public static final int activity_export=0x7f030001;
         public static final int activity_found_item=0x7f030002;
-        public static final int activity_list_category=0x7f030003;
-        public static final int activity_list_category_item=0x7f030004;
-        public static final int activity_login=0x7f030005;
-        public static final int activity_main=0x7f030006;
-        public static final int activity_password_reset=0x7f030007;
-        public static final int activity_sample=0x7f030008;
-        public static final int activity_search=0x7f030009;
-        public static final int activity_sign_up=0x7f03000a;
-        public static final int activity_test=0x7f03000b;
-        public static final int activity_view_item=0x7f03000c;
-        public static final int add_item=0x7f03000d;
-        public static final int capture=0x7f03000e;
-        public static final int fragment_main=0x7f03000f;
-        public static final int help=0x7f030010;
-        public static final int item_info=0x7f030011;
-        public static final int list_item=0x7f030012;
-        public static final int list_item_layout=0x7f030013;
-        public static final int zxinglib_capture=0x7f030014;
+        public static final int activity_help=0x7f030003;
+        public static final int activity_list_category=0x7f030004;
+        public static final int activity_list_category_item=0x7f030005;
+        public static final int activity_login=0x7f030006;
+        public static final int activity_main=0x7f030007;
+        public static final int activity_password_reset=0x7f030008;
+        public static final int activity_sample=0x7f030009;
+        public static final int activity_search=0x7f03000a;
+        public static final int activity_sign_up=0x7f03000b;
+        public static final int activity_test=0x7f03000c;
+        public static final int activity_view_item=0x7f03000d;
+        public static final int add_item=0x7f03000e;
+        public static final int capture=0x7f03000f;
+        public static final int fragment_main=0x7f030010;
+        public static final int help=0x7f030011;
+        public static final int item_info=0x7f030012;
+        public static final int list_item=0x7f030013;
+        public static final int list_item_layout=0x7f030014;
+        public static final int zxinglib_capture=0x7f030015;
     }
     public static final class menu {
         public static final int context_menu=0x7f0c0000;
         public static final int export=0x7f0c0001;
         public static final int found_item=0x7f0c0002;
-        public static final int list_category=0x7f0c0003;
-        public static final int list_category_item=0x7f0c0004;
-        public static final int login=0x7f0c0005;
-        public static final int main=0x7f0c0006;
-        public static final int main_menu=0x7f0c0007;
-        public static final int password_reset=0x7f0c0008;
-        public static final int sample=0x7f0c0009;
-        public static final int search=0x7f0c000a;
-        public static final int sign_up=0x7f0c000b;
-        public static final int test=0x7f0c000c;
-        public static final int view_item=0x7f0c000d;
+        public static final int help=0x7f0c0003;
+        public static final int list_category=0x7f0c0004;
+        public static final int list_category_item=0x7f0c0005;
+        public static final int login=0x7f0c0006;
+        public static final int main=0x7f0c0007;
+        public static final int main_menu=0x7f0c0008;
+        public static final int password_reset=0x7f0c0009;
+        public static final int sample=0x7f0c000a;
+        public static final int search=0x7f0c000b;
+        public static final int sign_up=0x7f0c000c;
+        public static final int test=0x7f0c000d;
+        public static final int view_item=0x7f0c000e;
     }
     public static final class raw {
         public static final int beep=0x7f050000;
-        public static final int zxinglib_beep=0x7f050001;
+        public static final int help=0x7f050001;
+        public static final int zxinglib_beep=0x7f050002;
     }
     public static final class string {
         public static final int action_new=0x7f0a001c;
@@ -311,6 +315,7 @@ public final class R {
         public static final int title_activity_camera=0x7f0a0029;
         public static final int title_activity_export=0x7f0a002e;
         public static final int title_activity_found_item=0x7f0a0030;
+        public static final int title_activity_help=0x7f0a0036;
         public static final int title_activity_list_category=0x7f0a002c;
         public static final int title_activity_list_category_item=0x7f0a002d;
         public static final int title_activity_login=0x7f0a000d;
@@ -326,6 +331,7 @@ public final class R {
         public static final int zxinglib_msg_default_status=0x7f0a0001;
     }
     public static final class style {
+        public static final int ActionBar=0x7f080002;
         /** 
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
@@ -363,6 +369,7 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f080001;
+        public static final int Theme_Transparent=0x7f080003;
     }
     public static final class xml {
         public static final int preferences=0x7f040000;

@@ -1,0 +1,77 @@
+<html>
+<head>
+</head>
+<body>
+<h1><center>Inventory App</center></h1>
+Contents
+<div id="menu">
+<ul>
+	<li> <a href="#faq"><b>Frequently asked questions</b></a>
+</ul>
+<ul>
+	<li> <a href="#usage"><b>Usage</b></a>
+
+    <ul>
+        <li><a href="#main">Main Menu</a></li>
+        <li><a href="#add">Adding an Item</a></li>
+        <li><a href="#ocr">OCR detail capture</a></li>
+        <li><a href="#barcode">Scan Barcode</a></li>
+        <li><a href="#isbn">Scan ISBN</a></li>
+        <li><a href="#search">Searching</a></li>
+        <li><a href="#export">Export</a></li>
+        </ul>
+    </ul>
+</div>
+
+<a name="faq"><h2>Frequently asked questions</h2></a>
+<b>What is this application?</b><br>
+This application allows a user to keep a collection of their inventory in the case of a fire or theft, or just for users who like to know what they have instead of using traditional pen and paper.
+<p>
+<b>How can I list everything in my inventory?</b><br>
+Just click the (<b>Inventory</b>) in the main menu.<p>
+<b>How can I add an item to a specific category?</b><br>
+Use the add item menu icon "<b>+</b>" from within the Inventory screen and write the category you want when saving the item<p>
+<b>I want my images to show up as thumbnails next to items in the list</b><br>
+With images stored in the cloud this would slow down the list a lot. Even for locally stored images it wouldn't exactly be fast.<p>
+<b>How can I add an image to an item?</b><br>
+Simply press the camera icon button on the Add/Edit screen to snap a picture of your item <p>
+<b>How do I export my inventory?</b><br>
+From the main menu you can now select "Export", this will produce an export file and prepare it as an attachment to an email. Just fill in the destination address (possibly yourself) and send it away. The file can be opened with Excel or any spreadsheet software. Currently the export only includes the primary fields.<p>
+<b>Where do you get the detailed item info from?</b><br>
+Amazon provides a very good API that I can query to produce the item details. Amazon has everything!<p>
+<b>The barcode scanner fails to catch my barcode. What can I do?</b><br>
+Improved light conditions is always a good start. Its very hard to capture a barcode in the dark<p>
+<b>The item I scanned shows no details!</b><br>
+The application makes use of products on the Amazon marketplace and if it's not on there its not worth having!<p>
+
+<a name="usage"><h2>Usage</h2></a>
+<b>Tip:</b> Try a <b>long press</b> on an item if you need to delete it.
+<a name="main"><h3>Main menu</h3></a>
+<b>Inventory</b> lists all the captured items that you have saved.<p>
+<b>Scan Barcode</b> allows you to scan an item. This will either let you enter the new item to your inventory. The application will try to look up name and category for you if possible.<p>
+<b>Scan ISBN</b> allows you to scan a book isbn. This will either let you enter the new item to your inventory. The application will try to look up name and category for you if possible.<p>
+<b>Categories</b> allows you to browse the data by category.<p>
+<b>Search</b> allows you to search the data by a title.<p>
+<b>Export</b> allows you to export the data.<p>
+<b>Help</b> is what you are reading right now.<p>
+
+<a name="add"><h3>Adding an Item</h3></a>
+Adding an item can be performed in two ways. Firstly by scanning using the barcode or ISBN or by clicking the "+" on the inventory list where you can enter the details of the item.<p>
+
+<a name="ocr"><h3>OCR detail capture</h3></a>
+Instead of manually entering the details for an item, such as the title, simply click on the text box you want to capture on the add / edit item screen then press the OCR button and capture the text.<p>
+
+<a name="barcode"><h3>Scan barcode</h3></a>
+<img src="http://home.petersson.se/android/inventory/barcode.png" align="right">Scanning needs good light conditions to work properly. Be sure to scan the "correct" barcode, typically a 13 digit EAN code (the first one separated and the rest in two groups).<p>
+
+<a name="isbn"><h3>Scan ISBN</h3></a>
+<img src="https://www.abebooks.com/images/Textbooks/isbn.gif" align="right">Scanning needs good light conditions to work properly. Be sure to scan the "correct" ISBN, typically a it is the couple of digits on <b>top</b> of the barcode on the back of a book<p>
+
+<a name="search"><h3>Searching</h3></a>
+Searching for an item is easy. Simply enter the name of the item on the search screen and it will list all the items that have the search term in its title.<p>
+
+<a name="export"><h3>Export</h3></a>
+To export your list, simply click on the export option in the main menu. This will generate a CSV file which can be sent as an attachment using hte email client on the device you are using. This file can then be opened in Excel or CSV compatible software.<p>
+
+</body>
+</html>

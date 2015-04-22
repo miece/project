@@ -53,5 +53,6 @@
     <string name="drawer_close">drawer_close</string>
     <string name="app_description">Android drawer icon with material design animation</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_help">Help</string>
 
 </resources>

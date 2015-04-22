@@ -29,25 +29,17 @@ public class ExportActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_export);
-		
-		/*
-
-		Intent sendIntent = new Intent();
-		sendIntent.setAction(Intent.ACTION_SEND);
-		sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-		sendIntent.setType("text/plain");
-		startActivity(sendIntent);
-		*/
 		
 		deleteItem();
 		
-		
+		// create a folder on the device
 		File exportDir = new File(Environment.getExternalStorageDirectory()
                 .getPath(), "/sqliteDB");
 		
+		// create a new file
 		File file = new File(exportDir, "exportInv.csv");
 		
+		// pass the file to the intent
 		Uri u1 = Uri.fromFile(file);
 		Intent sendIntent = new Intent(Intent.ACTION_SEND);
 		sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Inventory CSV");
@@ -55,7 +47,6 @@ public class ExportActivity extends Activity {
 		sendIntent.setType("text/richtext");
 		startActivity(sendIntent);
 		finish();
-		
 	}
 
 	@Override
@@ -77,17 +68,10 @@ public class ExportActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	
-	
-	
-	
 	public void deleteItem(){
-		final List<String> title_list = new ArrayList<String>();
-		//final List<String> desc_list = new ArrayList<String>();
-		//final List<String> category_list = new ArrayList<String>();
-		final List<String> tester = new ArrayList<String>();
 		final List<String[]> database = new ArrayList<String[]>();
 		
+		// query
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Inventory");
 		query.whereEqualTo("author", ParseUser.getCurrentUser());
 		query.setLimit(1000);
@@ -98,99 +82,41 @@ public class ExportActivity extends Activity {
 			public void done(List<ParseObject> postList, ParseException e) {
 				setProgressBarIndeterminateVisibility(false);
 				if (e == null) {
-					// If there are results, update the list of posts
-					// and notify the adapter
-					// iterate over all messages and delete them
 		            for(ParseObject message : postList)
 		            {
-		            	 //tester.add(message.get("title").toString() + "," + message.get("description").toString() + "," + message.get("category").toString());
-		                 //title_list.add(message.get("title").toString());
-		                 //desc_list.add(message.get("description").toString());
-		                 //category_list.add(message.get("category").toString());
 		                 database.add(new String[] {message.get("title").toString(), message.get("description").toString(), message.get("category").toString()});
 		            }
-		            for (String[] strings : database) {
-		                System.out.println(Arrays.toString(strings));
-		            }
-		             //System.out.println(tester);
-		             
-		             /*ArrayList to Array Conversion */
-		     		String array[] = new String[tester.size()];              
-		     		for(int j =0;j<tester.size();j++){
-		     		  array[j] = tester.get(j);
-		     		}
-		     		
-		     		//System.out.println("arr 0: " + array[0]);
-		     		
-		     		/*Displaying Array elements*/
-		    		for(String k: array)
-		    		{
-		    			//System.out.println(k);
-		    		}
-		            
-		            String allIds = TextUtils.join(",", title_list);
-		            //System.out.println(allIds);
-		            String[] ary = allIds.split(",");
-
-		            
-		            Log.i("Result", allIds);
-		            
+		            // header for csv file
 		            String[] header= new String[]{"Title","Description","Category"};
-		            
-		            /*
-		        	for (int i = 0; i < title_list.size(); i++) {
-		        	    
-		        	    System.out.println("Element: " + title_list);
-		        	}
-		        	*/
+
+		            // export dir
 		    		File exportDir = new File(Environment.getExternalStorageDirectory()
 		                    .getPath(), "/sqliteDB");
 		    		
+		    		// create a folder in none exists
 		    		if (!exportDir.exists())
 		            {
 		                exportDir.mkdirs();
 		            }
 		            
+		    		// create file
 		    		File file = new File(exportDir, "exportInv.csv");
 		    		
-		    		
 		    		try{
-		    			
 		    			file.createNewFile();               
 		                CSVWriter csvWrite = new CSVWriter(new FileWriter(file));
 		                csvWrite.writeNext(header);
 		                csvWrite.writeAll(database);
 		                csvWrite.close();
-		    			
-		    			
 		    		}
 		    		catch(Exception ex){
-		    			
+		    			// error
 		    		}
-		            
-		            //System.out.println("title size: " + title_list.size());
-		            //System.out.println("desc size: " + description_list.size());
-		            //System.out.println("category size: " + category_list.size());
 				} else {
 					Log.d(getClass().getSimpleName(), "Error: " + e.getMessage());
 					System.out.println(e.getMessage());
 				}
-
 			}
-
 		});
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
-
-
-
